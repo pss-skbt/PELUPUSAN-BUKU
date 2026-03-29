@@ -1,0 +1,364 @@
+:i-Pelupusan Arkib 9/08:i_pelupusan_arkib.html
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>i-Pelupusan Arkib 9/08</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #27ae60;
+            --danger-color: #e74c3c;
+        }
+
+        body { 
+            font-family: Arial, sans-serif; 
+            background: #f0f0f0; 
+            padding: 20px; 
+            margin: 0;
+        }
+
+        .no-print { 
+            text-align: center; 
+            margin-bottom: 20px; 
+            position: sticky;
+            top: 0;
+            background: #f0f0f0;
+            padding: 10px;
+            z-index: 100;
+        }
+
+        .btn {
+            padding: 10px 20px; 
+            cursor: pointer; 
+            color: white; 
+            border: none; 
+            border-radius: 5px; 
+            font-weight: bold;
+            margin: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover { opacity: 0.9; }
+        .btn-export { background: var(--primary-color); }
+        .btn-add { background: var(--secondary-color); }
+
+        /* A4 Container */
+        .form-container { 
+            background: white; 
+            width: 210mm; 
+            min-height: 297mm;
+            margin: auto; 
+            padding: 15mm; 
+            box-shadow: 0 0 10px rgba(0,0,0,0.1); 
+            box-sizing: border-box;
+            position: relative;
+        }
+
+        /* Header Styling */
+        .header-table { width: 100%; border: none; margin-bottom: 5px; font-size: 10pt; }
+        .borang-title { 
+            text-align: center; 
+            font-weight: bold; 
+            font-size: 11pt; 
+            text-transform: uppercase; 
+            margin: 10px 0;
+            line-height: 1.4;
+        }
+        
+        /* Box for Arkib Use */
+        .arkib-box { 
+            border: 1px solid black; 
+            padding: 8px; 
+            width: 230px; 
+            float: right; 
+            font-size: 9pt; 
+            margin-bottom: 10px;
+        }
+        
+        /* Input Sections */
+        .section-title { 
+            font-weight: bold; 
+            text-decoration: underline; 
+            margin-top: 15px; 
+            margin-bottom: 8px; 
+            clear: both; 
+            font-size: 10pt;
+        }
+
+        .input-group { 
+            margin-bottom: 6px; 
+            display: flex; 
+            align-items: flex-end;
+        }
+
+        .label { 
+            width: 280px; 
+            font-size: 10pt; 
+            flex-shrink: 0;
+        }
+
+        input[type="text"] { 
+            border: none; 
+            border-bottom: 1px dotted #000; 
+            width: 100%; 
+            outline: none; 
+            font-family: inherit;
+            font-size: 10pt;
+            background: transparent;
+        }
+
+        /* Table for Records */
+        table.rekod-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            margin-top: 10px; 
+            table-layout: fixed;
+        }
+
+        table.rekod-table th, table.rekod-table td { 
+            border: 1px solid black; 
+            padding: 5px; 
+            font-size: 9pt; 
+            word-wrap: break-word;
+        }
+
+        table.rekod-table th {
+            background: #f9f9f9;
+            font-weight: normal;
+        }
+
+        textarea {
+            width: 100%;
+            border: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 9pt;
+            outline: none;
+            background: transparent;
+            display: block;
+            overflow: hidden;
+        }
+
+        .btn-delete {
+            background: var(--danger-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 8pt;
+            padding: 2px 5px;
+            border-radius: 3px;
+            margin-top: 2px;
+        }
+
+        /* Signature Section */
+        .sig-section { 
+            margin-top: 25px; 
+            font-size: 10pt; 
+            line-height: 1.6; 
+        }
+
+        .sig-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+        }
+
+        .sig-line {
+            border-top: 1px solid black;
+            width: 250px;
+            text-align: center;
+            margin-top: 45px;
+            padding-top: 5px;
+        }
+
+        @media print {
+            .no-print { display: none; }
+            body { background: white; padding: 0; }
+            .form-container { box-shadow: none; margin: 0; width: 100%; }
+            .btn-delete { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="no-print">
+    <button onclick="addRow()" class="btn btn-add">+ Tambah Baris Rekod</button>
+    <button onclick="exportToPDF()" class="btn btn-export">Eksport ke PDF</button>
+</div>
+
+<div id="borang-content" class="form-container">
+    <!-- Header -->
+    <table class="header-table">
+        <tr>
+            <td style="width: 50%; vertical-align: top;">[Subperaturan 7(3)]</td>
+            <td style="text-align: right; font-weight: bold;">Borang 9<br>Arkib 9/08</td>
+        </tr>
+    </table>
+
+    <div class="borang-title">
+        BORANG PERMOHONAN BAGI PELUPUSAN REKOD TERBITAN DAN BAHAN BERCETAK<br>
+        (YANG TIDAK DINYATAKAN DALAM JADUAL PELUPUSAN REKOD)
+    </div>
+
+    <!-- Arkib Box -->
+    <div class="arkib-box">
+        <u>Untuk Kegunaan Arkib Negara</u><br>
+        Tarikh Terima:<br>
+        Jumlah Rekod:<br>
+        No. Penerimaan:
+    </div>
+
+    <div class="section-title">BUTIR-BUTIR JABATAN</div>
+    
+    <div class="input-group">
+        <span class="label">(1) Kementerian/Jabatan/Agensi:</span>
+        <input type="text" id="dept">
+    </div>
+    <div class="input-group">
+        <span class="label">(2) Bahagian/Cawangan/Unit:</span>
+        <input type="text" id="branch">
+    </div>
+    <div class="input-group">
+        <span class="label">(3) Pewujud Rekod [Jika tidak sama dengan (1)]:</span>
+        <input type="text" id="creator">
+    </div>
+
+    <div class="section-title">MAKLUMAT MENGENAI REKOD</div>
+    
+    <div class="input-group">
+        <span class="label">(4) Peringkat Keselamatan:</span>
+        <input type="text" id="security">
+    </div>
+
+    <!-- Main Table -->
+    <table class="rekod-table">
+        <thead>
+            <tr>
+                <th style="width: 35px;">Bil.<br>(5)</th>
+                <th>Tajuk<br>(6)</th>
+                <th style="width: 90px;">Tahun/Tarikh Diterbitkan (7)</th>
+                <th style="width: 80px;">Meter Panjang/ Jumlah (8)</th>
+                <th style="width: 90px;">Cadangan Pelupusan (9)</th>
+                <th style="width: 80px;">Catatan<br>(10)</th>
+            </tr>
+        </thead>
+        <tbody id="rekod-body">
+            <tr>
+                <td style="text-align: center;">
+                    <span class="row-number">1</span>
+                </td>
+                <td><textarea rows="2" oninput="autoResize(this)"></textarea></td>
+                <td><textarea rows="2" oninput="autoResize(this)"></textarea></td>
+                <td><input type="text"></td>
+                <td><input type="text"></td>
+                <td>
+                    <input type="text">
+                    <button class="btn-delete no-print" onclick="deleteRow(this)">Padam</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Section 11 -->
+    <div class="sig-section">
+        (11) Mengikut Seksyen 25 dan 26, Akta Arkib Negara 2003 [Akta 629], saya mengemukakan permohonan ini bagi pelupusan rekod di atas:
+        
+        <div class="sig-container">
+            <div style="width: 60%;">
+                <div style="margin-top: 10px;">
+                    Nama Pegawai: <input type="text" style="width: 250px;">
+                </div>
+                <div style="margin-top: 10px;">
+                    Jawatan: <input type="text" style="width: 250px;">
+                </div>
+                <div style="margin-top: 10px;">
+                    Tarikh: <input type="text" style="width: 200px;">
+                </div>
+            </div>
+            <div class="sig-line">
+                Tandatangan dan Meterai/Cap Jabatan
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function addRow() {
+        const tbody = document.getElementById('rekod-body');
+        const rows = tbody.getElementsByTagName('tr');
+        const nextNum = rows.length + 1;
+
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td style="text-align: center;">
+                <span class="row-number">${nextNum}</span>
+            </td>
+            <td><textarea rows="2" oninput="autoResize(this)"></textarea></td>
+            <td><textarea rows="2" oninput="autoResize(this)"></textarea></td>
+            <td><input type="text"></td>
+            <td><input type="text"></td>
+            <td>
+                <input type="text">
+                <button class="btn-delete no-print" onclick="deleteRow(this)">Padam</button>
+            </td>
+        `;
+        tbody.appendChild(newRow);
+    }
+
+    function deleteRow(btn) {
+        const row = btn.parentNode.parentNode;
+        row.parentNode.removeChild(row);
+        updateRowNumbers();
+    }
+
+    function updateRowNumbers() {
+        const rows = document.querySelectorAll('#rekod-body tr');
+        rows.forEach((row, index) => {
+            row.querySelector('.row-number').innerText = index + 1;
+        });
+    }
+
+    function autoResize(textarea) {
+        textarea.style.height = 'auto';
+        textarea.style.height = textarea.scrollHeight + 'px';
+    }
+
+    function exportToPDF() {
+        const element = document.getElementById('borang-content');
+        
+        // Hide delete buttons specifically before capture (fallback for html2pdf)
+        const deleteButtons = document.querySelectorAll('.btn-delete');
+        deleteButtons.forEach(b => b.style.visibility = 'hidden');
+
+        const opt = {
+            margin:       [10, 5, 10, 5],
+            filename:     'Borang_Arkib_9-08.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { 
+                scale: 2, 
+                letterRendering: true,
+                useCORS: true 
+            },
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        html2pdf().set(opt).from(element).save().then(() => {
+            // Restore delete buttons visibility
+            deleteButtons.forEach(b => b.style.visibility = 'visible');
+        });
+    }
+</script>
+
+</body>
+</html>
+
+
+### Kemas Kini Utama:
+1.  **Tambah Baris Automatik:** Gunakan butang **"+ Tambah Baris Rekod"** untuk menambah baris baru. Nombor pada Bil. (5) akan dikira secara automatik.
+2.  **Padam Baris:** Saya menambah butang "Padam" kecil pada setiap baris (hanya muncul di skrin, tidak muncul dalam PDF) untuk memudahkan pembetulan jika tersalah tambah.
+3.  **Kotak Tajuk Dinamik:** Lajur Tajuk (6) dan Tahun (7) menggunakan `textarea` yang akan membesar secara automatik jika teks yang dimasukkan panjang, supaya susun atur borang tidak rosak.
+4.  **Kedudukan Konsisten:** Menggunakan unit `mm` (milimeter) dalam CSS untuk memastikan hasil eksport PDF mempunyai saiz dan kedudukan margin yang tepat seperti dokumen Word asal yang anda berikan.
+5.  **Navigasi Mudah:** Butang kawalan ditetapkan di bahagian atas (sticky) supaya anda tidak perlu skrol ke atas setiap kali hendak menambah baris atau eksport.

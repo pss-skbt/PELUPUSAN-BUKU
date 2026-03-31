@@ -178,6 +178,7 @@
                             </div>
                         </div>
 
+                        <!-- Bahagian Perenggan -->
                         <div class="space-y-6 mb-10">
                             <div class="relative group">
                                 <label class="text-[10px] font-bold text-gray-400 uppercase absolute -top-2 left-4 bg-white px-2 z-10">Perenggan 1 (Pendahuluan)</label>
@@ -187,9 +188,18 @@
                                 <label class="text-[10px] font-bold text-gray-400 uppercase absolute -top-2 left-4 bg-white px-2 z-10">Perenggan 2 (Tujuan)</label>
                                 <textarea class="s-perenggan w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm leading-relaxed" rows="4">Bersama-sama ini dikemukakan Borang Permohonan Pelupusan Rekod Terbitan dan Bahan Bercetak (Borang 9 - Arkib 9/08) sebanyak 1 salinan bagi tujuan permohonan pelupusan bahan-bahan di Pusat Sumber Sekolah (PSS) yang telah uzur dan rosak.</textarea>
                             </div>
+                            <!-- KEMASKINI: Tambah Perenggan 3 & 4 -->
+                            <div class="relative group">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase absolute -top-2 left-4 bg-white px-2 z-10">Perenggan 3</label>
+                                <textarea class="s-perenggan w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm leading-relaxed" rows="3" placeholder="Sila isi perenggan 3 jika perlu..."></textarea>
+                            </div>
+                            <div class="relative group">
+                                <label class="text-[10px] font-bold text-gray-400 uppercase absolute -top-2 left-4 bg-white px-2 z-10">Perenggan 4</label>
+                                <textarea class="s-perenggan w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm leading-relaxed" rows="3" placeholder="Sila isi perenggan 4 jika perlu..."></textarea>
+                            </div>
                         </div>
 
-                        <!-- BAHAGIAN YANG DIPERLUKAN: Kotak Input Nama & Jawatan -->
+                        <!-- Maklumat Penandatangan -->
                         <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
                             <h4 class="text-xs font-bold text-gray-400 uppercase mb-4 tracking-wider">Maklumat Penandatangan (Guru Besar)</h4>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -441,10 +451,21 @@
 
         doc.setFont("helvetica", "normal");
         let currentY = 132;
+        
+        // Loop perenggan yang ada isi sahaja
         perengganNodes.forEach((node, idx) => {
-            const splitText = doc.splitTextToSize(`${idx + 1}.   ${node.value}`, 170);
-            doc.text(splitText, 20, currentY);
-            currentY += (splitText.length * 7) + 3;
+            if(node.value.trim() !== "") {
+                const splitText = doc.splitTextToSize(`${idx + 1}.   ${node.value}`, 170);
+                
+                // Cek overflow muka surat
+                if (currentY + (splitText.length * 7) > 270) {
+                    doc.addPage();
+                    currentY = 20;
+                }
+
+                doc.text(splitText, 20, currentY);
+                currentY += (splitText.length * 7) + 3;
+            }
         });
 
         doc.text("Sekian, terima kasih.", 20, currentY + 10);

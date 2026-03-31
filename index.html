@@ -198,7 +198,7 @@
                             </div>
                         </div>
 
-                        <!-- KEMASKINI: Bahagian Penutup & Penandatangan -->
+                        <!-- Bahagian Penutup & Penandatangan -->
                         <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8 space-y-6">
                             <h4 class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">Penutup & Pengakuan</h4>
                             
@@ -305,19 +305,19 @@
                         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-indigo-50 p-5 rounded-xl border border-indigo-100">
                             <div>
                                 <label class="text-[10px] font-bold text-indigo-400 uppercase">Jabatan (1)</label>
-                                <input type="text" id="b_jabatan" value="SK Bukit Tongkat" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                                <input type="text" id="b_jabatan" value="SK BUKIT TONGKAT" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold uppercase">
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-indigo-400 uppercase">Bahagian (2)</label>
-                                <input type="text" id="b_bahagian" value="Pusat Sumber Sekolah" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                                <input type="text" id="b_bahagian" value="PUSAT SUMBER SEKOLAH" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold uppercase">
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-indigo-400 uppercase">Pewujud (3)</label>
-                                <input type="text" id="b_pewujud" value="Guru Perpustakaan & Media" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                                <input type="text" id="b_pewujud" value="GURU PERPUSTAKAAN & MEDIA" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold uppercase">
                             </div>
                             <div>
                                 <label class="text-[10px] font-bold text-indigo-400 uppercase">Keselamatan (4)</label>
-                                <input type="text" id="b_keselamatan" value="TERBUKA" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                                <input type="text" id="b_keselamatan" value="TERBUKA" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold uppercase">
                             </div>
                         </div>
 
@@ -344,7 +344,7 @@
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t pt-8">
                             <div>
-                                <label class="text-xs font-bold text-gray-500 uppercase">Pegawai Pengesah (11)</label>
+                                <label class="text-xs font-bold text-gray-500 uppercase">Nama Pegawai (11)</label>
                                 <input type="text" id="b_pegawai" class="w-full p-3 bg-gray-50 border rounded-lg uppercase font-bold" placeholder="NAMA PEGAWAI">
                             </div>
                             <div>
@@ -441,19 +441,17 @@
         document.getElementById('logo-preview-container').innerHTML = `<img src="${base64}" class="animate-in fade-in duration-500">`;
     }
 
-    // KEMASKINI: PDF Surat Iringan dengan Input Dinamik
+    // PDF Surat Iringan
     async function downloadSuratPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
         
-        // Data dari input
         const namaSekolahHeader = document.getElementById('h_nama_sekolah').value.toUpperCase();
         const alamatSekolahHeader = document.getElementById('h_alamat_sekolah').value;
         const noRujukan = document.getElementById('s_no_rujukan').value;
         const tarikhSurat = document.getElementById('s_tarikh_surat').value;
         const perengganNodes = document.querySelectorAll('.s-perenggan');
         
-        // Data Penutup & Penandatangan Baru
         const sekianText = document.getElementById('s_sekian_terima_kasih').value;
         const madaniText = document.getElementById('s_malaysia_madani').value.toUpperCase();
         const berkhidmatText = document.getElementById('s_berkhidmat_untuk_negara').value.toUpperCase();
@@ -496,7 +494,6 @@
             }
         });
 
-        // Penutup Dinamik
         doc.text(sekianText, 20, currentY + 10);
         doc.setFont("helvetica", "bold").text([`"${madaniText}"`, `"${berkhidmatText}"`], 20, currentY + 25);
         doc.setFont("helvetica", "normal").text(amanahText, 20, currentY + 45);
@@ -514,7 +511,97 @@
         updateStats(); renderRecords(); switchTab('list');
     }
 
-    // Borang 9 Logic (Dikekalkan)
+    // KEMASKINI: Borang 9 PDF Format Penuh
+    function downloadBorangPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        
+        // Data Am
+        const jabatan = document.getElementById('b_jabatan').value.toUpperCase();
+        const bahagian = document.getElementById('b_bahagian').value.toUpperCase();
+        const pewujud = document.getElementById('b_pewujud').value.toUpperCase();
+        const keselamatan = document.getElementById('b_keselamatan').value.toUpperCase();
+        const namaPegawai = document.getElementById('b_pegawai').value.toUpperCase();
+        const jawatanPegawai = document.getElementById('b_jawatan').value;
+        const tarikhHarian = new Date().toLocaleDateString('ms-MY');
+
+        // Header Borang
+        doc.setFont("helvetica", "bold").setFontSize(10);
+        doc.text("[Subperaturan 7(3)]", 105, 12, {align:'center'});
+        doc.text("Borang 9", 105, 17, {align:'center'});
+        doc.text("Arkib 9/08", 195, 22, {align:'right'});
+
+        doc.setFontSize(11);
+        doc.text("BORANG PERMOHONAN BAGI PELUPUSAN", 105, 30, {align:'center'});
+        doc.text("REKOD TERBITAN DAN BAHAN BERCETAK", 105, 35, {align:'center'});
+        doc.text("(YANG TIDAK DINYATAKAN DALAM JADUAL PELUPUSAN REKOD)", 105, 40, {align:'center'});
+
+        // Jadual Maklumat Atas (Butir-Butir Jabatan)
+        doc.autoTable({
+            startY: 45,
+            theme: 'plain',
+            styles: { fontSize: 8, cellPadding: 2, textColor: 0, lineColor: 0, lineWidth: 0.2 },
+            columnStyles: { 0: { cellWidth: 100 }, 1: { cellWidth: 70 } },
+            body: [
+                [{ content: 'BUTIR-BUTIR JABATAN', colSpan: 1, styles: { halign: 'center', fontStyle: 'bold', fillColor: [245, 245, 245] } }, 
+                 { content: 'Untuk Kegunaan Arkib Negara', styles: { fontStyle: 'italic' } }],
+                [
+                  { content: `(1) Kementerian/Jabatan/Agensi: \n ${jabatan}`, styles: { minCellHeight: 12 } },
+                  { content: `Tarikh Terima: \n Jumlah Rekod: \n No. Penerimaan:`, rowSpan: 3 }
+                ],
+                [{ content: `(2) Bahagian/Cawangan/Unit: \n ${bahagian}`, styles: { minCellHeight: 12 } }],
+                [{ content: `(3) Pewujud Rekod [Jika tidak sama dengan (1)]: \n ${pewujud}`, styles: { minCellHeight: 12 } }],
+                [{ content: 'MAKLUMAT MENGENAI REKOD', colSpan: 2, styles: { halign: 'center', fontStyle: 'bold', fillColor: [245, 245, 245] } }],
+                [{ content: `(4) Peringkat Keselamatan: ${keselamatan}`, colSpan: 2 }]
+            ]
+        });
+
+        // Jadual Item
+        const rows = Array.from(document.querySelectorAll('#b_items-tbody tr')).map(r => [
+            r.cells[0].innerText, 
+            r.querySelector('.b-item-tajuk').value, 
+            r.querySelector('.b-item-tahun').value, 
+            r.querySelector('.b-item-meter').value, 
+            r.querySelector('.b-item-cadangan').value, 
+            r.querySelector('.b-item-catatan').value
+        ]);
+
+        doc.autoTable({
+            startY: doc.lastAutoTable.finalY,
+            head: [['Bil. \n (5)', 'Tajuk \n (6)', 'Tahun/Tarikh \n Diterbitkan (7)', 'Meter \n Panjang/ \n Jumlah (8)', 'Cadangan \n Pelupusan \n (9)', 'Catatan \n (10)']],
+            body: rows,
+            theme: 'grid',
+            headStyles: { fillColor: [255, 255, 255], textColor: 0, lineColor: 0, lineWidth: 0.2, halign: 'center', fontSize: 8, fontStyle: 'bold' },
+            styles: { fontSize: 8, textColor: 0, lineColor: 0, lineWidth: 0.2 },
+            columnStyles: {
+                0: { halign: 'center', cellWidth: 10 },
+                1: { cellWidth: 70 },
+                2: { halign: 'center', cellWidth: 25 },
+                3: { halign: 'center', cellWidth: 20 },
+                4: { halign: 'center', cellWidth: 25 },
+                5: { cellWidth: 20 }
+            }
+        });
+
+        // Bahagian Tandatangan
+        const currentY = doc.lastAutoTable.finalY;
+        doc.autoTable({
+            startY: currentY,
+            theme: 'plain',
+            styles: { fontSize: 9, cellPadding: 2, textColor: 0, lineColor: 0, lineWidth: 0.2 },
+            body: [
+                [{ content: `(11) Mengikut Seksyen 25 & 26, Akta Arkib Negara 2003 [Akta 629], saya mengemukakan \n Permohonan ini bagi pelupusan rekod di atas:`, colSpan: 2, styles: { minCellHeight: 15 } }],
+                [
+                    `Nama Pegawai: ${namaPegawai}\n\nJawatan: ${jawatanPegawai}`,
+                    `Tandatangan dan Meterai/Cap Jabatan:\n\n\nTarikh: ${tarikhHarian}`
+                ]
+            ]
+        });
+
+        doc.save(`Borang9_SKBT_${tarikhHarian}.pdf`);
+    }
+
+    // Import & Table Logic (Dikekalkan)
     function toggleImportMode(mode) {
         document.getElementById('url-container').classList.add('hidden');
         document.getElementById('paste-container').classList.add('hidden');
@@ -600,18 +687,6 @@
         records.push({ id: Date.now(), type: 'BORANG 9', ref: 'ARKIB 9/08', savedAt: new Date().toLocaleString('ms-MY') });
         localStorage.setItem('pss_records_v3', JSON.stringify(records));
         updateStats(); renderRecords(); switchTab('list');
-    }
-
-    function downloadBorangPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
-        const rows = Array.from(document.querySelectorAll('#b_items-tbody tr')).map(r => [
-            r.cells[0].innerText, r.querySelector('.b-item-tajuk').value, r.querySelector('.b-item-tahun').value, 
-            r.querySelector('.b-item-meter').value, r.querySelector('.b-item-cadangan').value, r.querySelector('.b-item-catatan').value
-        ]);
-        doc.text("BORANG 9 (ARKIB 9/08)", 105, 15, {align:'center'});
-        doc.autoTable({ head: [['Bil', 'Tajuk', 'Tahun', 'Meter', 'Cadangan', 'Catatan']], body: rows, startY: 25 });
-        doc.save("Borang9_PSS.pdf");
     }
 </script>
 </body>

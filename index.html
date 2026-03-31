@@ -188,7 +188,6 @@
                                 <label class="text-[10px] font-bold text-gray-400 uppercase absolute -top-2 left-4 bg-white px-2 z-10">Perenggan 2 (Tujuan)</label>
                                 <textarea class="s-perenggan w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm leading-relaxed" rows="4">Bersama-sama ini dikemukakan Borang Permohonan Pelupusan Rekod Terbitan dan Bahan Bercetak (Borang 9 - Arkib 9/08) sebanyak 1 salinan bagi tujuan permohonan pelupusan bahan-bahan di Pusat Sumber Sekolah (PSS) yang telah uzur dan rosak.</textarea>
                             </div>
-                            <!-- KEMASKINI: Tambah Perenggan 3 & 4 -->
                             <div class="relative group">
                                 <label class="text-[10px] font-bold text-gray-400 uppercase absolute -top-2 left-4 bg-white px-2 z-10">Perenggan 3</label>
                                 <textarea class="s-perenggan w-full p-4 bg-gray-50 border border-gray-200 rounded-xl text-sm leading-relaxed" rows="3" placeholder="Sila isi perenggan 3 jika perlu..."></textarea>
@@ -199,17 +198,44 @@
                             </div>
                         </div>
 
-                        <!-- Maklumat Penandatangan -->
-                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8">
-                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-4 tracking-wider">Maklumat Penandatangan (Guru Besar)</h4>
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- KEMASKINI: Bahagian Penutup & Penandatangan -->
+                        <div class="bg-gray-50 p-6 rounded-xl border border-gray-200 mb-8 space-y-6">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">Penutup & Pengakuan</h4>
+                            
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Nama Pegawai</label>
+                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Penutup Utama</label>
+                                    <input type="text" id="s_sekian_terima_kasih" value="Sekian, terima kasih." class="w-full p-3 bg-white border border-gray-300 rounded-lg">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Slogan 1</label>
+                                    <input type="text" id="s_malaysia_madani" value="MALAYSIA MADANI" class="w-full p-3 bg-white border border-gray-300 rounded-lg uppercase">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Slogan 2</label>
+                                    <input type="text" id="s_berkhidmat_untuk_negara" value="BERKHIDMAT UNTUK NEGARA" class="w-full p-3 bg-white border border-gray-300 rounded-lg uppercase">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Frasa Pengakuan</label>
+                                    <input type="text" id="s_amanah" value="Saya yang menjalankan amanah," class="w-full p-3 bg-white border border-gray-300 rounded-lg">
+                                </div>
+                            </div>
+
+                            <hr class="border-gray-200">
+                            <h4 class="text-xs font-bold text-gray-400 uppercase mb-2 tracking-wider">Maklumat Penandatangan</h4>
+
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Nama Pegawai (Huruf Besar)</label>
                                     <input type="text" id="s_nama_gb" value="NAMA GURU BESAR" class="w-full p-3 bg-white border border-gray-300 rounded-lg uppercase font-bold text-gray-700">
                                 </div>
                                 <div>
-                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Jawatan</label>
+                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Jawatan Pegawai</label>
                                     <input type="text" id="s_jawatan_gb" value="Guru Besar" class="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-700">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-indigo-900 uppercase mb-1 block">Nama Sekolah</label>
+                                    <input type="text" id="s_nama_sekolah_cap" value="Sekolah Kebangsaan Bukit Tongkat" class="w-full p-3 bg-white border border-gray-300 rounded-lg text-gray-700">
                                 </div>
                             </div>
                         </div>
@@ -415,17 +441,26 @@
         document.getElementById('logo-preview-container').innerHTML = `<img src="${base64}" class="animate-in fade-in duration-500">`;
     }
 
-    // PDF Surat Iringan
+    // KEMASKINI: PDF Surat Iringan dengan Input Dinamik
     async function downloadSuratPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF('p', 'mm', 'a4');
-        const namaSekolah = document.getElementById('h_nama_sekolah').value.toUpperCase();
-        const alamatSekolah = document.getElementById('h_alamat_sekolah').value;
+        
+        // Data dari input
+        const namaSekolahHeader = document.getElementById('h_nama_sekolah').value.toUpperCase();
+        const alamatSekolahHeader = document.getElementById('h_alamat_sekolah').value;
         const noRujukan = document.getElementById('s_no_rujukan').value;
         const tarikhSurat = document.getElementById('s_tarikh_surat').value;
         const perengganNodes = document.querySelectorAll('.s-perenggan');
+        
+        // Data Penutup & Penandatangan Baru
+        const sekianText = document.getElementById('s_sekian_terima_kasih').value;
+        const madaniText = document.getElementById('s_malaysia_madani').value.toUpperCase();
+        const berkhidmatText = document.getElementById('s_berkhidmat_untuk_negara').value.toUpperCase();
+        const amanahText = document.getElementById('s_amanah').value;
         const namaGB = document.getElementById('s_nama_gb').value.toUpperCase();
         const jawatanGB = document.getElementById('s_jawatan_gb').value;
+        const namaSekolahCap = document.getElementById('s_nama_sekolah_cap').value;
 
         let headerTextX = 20;
         if(schoolLogoBase64) {
@@ -433,9 +468,9 @@
             headerTextX = 52;
         }
 
-        doc.setFont("helvetica", "bold").setFontSize(14).text(namaSekolah, headerTextX, 18);
+        doc.setFont("helvetica", "bold").setFontSize(14).text(namaSekolahHeader, headerTextX, 18);
         doc.setFont("helvetica", "normal").setFontSize(9);
-        const splitAlamat = doc.splitTextToSize(alamatSekolah, 135);
+        const splitAlamat = doc.splitTextToSize(alamatSekolahHeader, 135);
         doc.text(splitAlamat, headerTextX, 24);
         doc.setLineWidth(0.5).line(20, 38, 190, 38);
 
@@ -452,28 +487,22 @@
         doc.setFont("helvetica", "normal");
         let currentY = 132;
         
-        // Loop perenggan yang ada isi sahaja
         perengganNodes.forEach((node, idx) => {
             if(node.value.trim() !== "") {
                 const splitText = doc.splitTextToSize(`${idx + 1}.   ${node.value}`, 170);
-                
-                // Cek overflow muka surat
-                if (currentY + (splitText.length * 7) > 270) {
-                    doc.addPage();
-                    currentY = 20;
-                }
-
+                if (currentY + (splitText.length * 7) > 270) { doc.addPage(); currentY = 20; }
                 doc.text(splitText, 20, currentY);
                 currentY += (splitText.length * 7) + 3;
             }
         });
 
-        doc.text("Sekian, terima kasih.", 20, currentY + 10);
-        doc.setFont("helvetica", "bold").text(['"MALAYSIA MADANI"', '"BERKHIDMAT UNTUK NEGARA"'], 20, currentY + 25);
-        doc.setFont("helvetica", "normal").text("Saya yang menjalankan amanah,", 20, currentY + 45);
+        // Penutup Dinamik
+        doc.text(sekianText, 20, currentY + 10);
+        doc.setFont("helvetica", "bold").text([`"${madaniText}"`, `"${berkhidmatText}"`], 20, currentY + 25);
+        doc.setFont("helvetica", "normal").text(amanahText, 20, currentY + 45);
         doc.text("...................................................", 20, currentY + 70);
         doc.setFont("helvetica", "bold").text(`( ${namaGB} )`, 20, currentY + 76);
-        doc.setFont("helvetica", "normal").text([jawatanGB, namaSekolah], 20, currentY + 82);
+        doc.setFont("helvetica", "normal").text([jawatanGB, namaSekolahCap], 20, currentY + 82);
 
         doc.save(`Surat_Iringan_${noRujukan.replace(/\//g,'_')}.pdf`);
     }

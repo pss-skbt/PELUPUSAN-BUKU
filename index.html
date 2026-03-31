@@ -13,20 +13,6 @@
         body { font-family: 'Inter', sans-serif; }
         .sidebar-item:hover { background-color: rgba(255, 255, 255, 0.1); }
         .active-tab { background-color: rgba(255, 255, 255, 0.2); border-left: 4px solid #fff; }
-        select { appearance: none; -webkit-appearance: none; }
-        .custom-select-wrapper { position: relative; }
-        .custom-select-wrapper::after {
-            content: '\f0d7';
-            font-family: 'Font Awesome 5 Free';
-            font-weight: 900;
-            position: absolute;
-            right: 8px;
-            top: 50%;
-            transform: translateY(-50%);
-            pointer-events: none;
-            font-size: 10px;
-            color: #94a3b8;
-        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -235,15 +221,7 @@
                                     <td class="p-3 border-r"><input type="text" placeholder="Buku/Bahan..." class="w-full border-none bg-transparent b-item-tajuk focus:ring-0"></td>
                                     <td class="p-3 border-r"><input type="text" placeholder="2024" class="w-full border-none bg-transparent b-item-tahun focus:ring-0 text-center"></td>
                                     <td class="p-3 border-r"><input type="text" placeholder="0.00" class="w-full border-none bg-transparent b-item-meter focus:ring-0 text-center"></td>
-                                    <td class="p-3 border-r">
-                                        <div class="custom-select-wrapper">
-                                            <select class="w-full border-none bg-transparent b-item-cadangan focus:ring-0 text-sm cursor-pointer pr-6">
-                                                <option value="Musnah">Musnah</option>
-                                                <option value="Kitar Semula">Kitar Semula</option>
-                                                <option value="Derma">Derma</option>
-                                            </select>
-                                        </div>
-                                    </td>
+                                    <td class="p-3 border-r"><input type="text" placeholder="Musnah" class="w-full border-none bg-transparent b-item-cadangan focus:ring-0"></td>
                                     <td class="p-3 border-r"><input type="text" class="w-full border-none bg-transparent b-item-catatan focus:ring-0"></td>
                                     <td class="p-3 text-center text-red-400 cursor-pointer" onclick="removeItem(this)"><i class="fas fa-trash-alt"></i></td>
                                 </tr>
@@ -355,15 +333,7 @@
             <td class="p-3 border-r"><input type="text" placeholder="Tajuk..." class="w-full border-none bg-transparent b-item-tajuk focus:ring-0"></td>
             <td class="p-3 border-r"><input type="text" placeholder="2024" class="w-full border-none bg-transparent b-item-tahun focus:ring-0 text-center"></td>
             <td class="p-3 border-r"><input type="text" placeholder="0.00" class="w-full border-none bg-transparent b-item-meter focus:ring-0 text-center"></td>
-            <td class="p-3 border-r">
-                <div class="custom-select-wrapper">
-                    <select class="w-full border-none bg-transparent b-item-cadangan focus:ring-0 text-sm cursor-pointer pr-6">
-                        <option value="Musnah">Musnah</option>
-                        <option value="Kitar Semula">Kitar Semula</option>
-                        <option value="Derma">Derma</option>
-                    </select>
-                </div>
-            </td>
+            <td class="p-3 border-r"><input type="text" placeholder="Musnah" class="w-full border-none bg-transparent b-item-cadangan focus:ring-0"></td>
             <td class="p-3 border-r"><input type="text" class="w-full border-none bg-transparent b-item-catatan focus:ring-0"></td>
             <td class="p-3 text-center text-red-400 cursor-pointer" onclick="removeItem(this)"><i class="fas fa-trash-alt"></i></td>
         `;

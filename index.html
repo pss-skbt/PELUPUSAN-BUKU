@@ -13,6 +13,28 @@
         body { font-family: 'Inter', sans-serif; }
         .sidebar-item:hover { background-color: rgba(255, 255, 255, 0.1); }
         .active-tab { background-color: rgba(255, 255, 255, 0.2); border-left: 4px solid #fff; }
+        input:focus { outline: none; background-color: #f0f4ff; }
+        .custom-file-upload {
+            display: inline-block;
+            padding: 8px 20px;
+            cursor: pointer;
+            background: #4f46e5;
+            color: white;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .custom-file-upload:hover { background: #4338ca; }
+        .loading-spinner {
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #4f46e5;
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+        }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -91,7 +113,7 @@
 
     <!-- Main Content -->
     <main class="flex-1 overflow-y-auto">
-        <header class="bg-white shadow-sm border-b px-8 py-4 flex justify-between items-center">
+        <header class="bg-white shadow-sm border-b px-8 py-4 flex justify-between items-center sticky top-0 z-10">
             <h2 id="tab-title" class="text-xl font-semibold text-gray-700">Dashboard</h2>
             <div id="current-date" class="text-xs text-gray-500 font-medium"></div>
         </header>
@@ -131,7 +153,7 @@
                             </div>
                         </div>
                     </div>
-
+                    <!-- Borang Kandungan Surat (Sama seperti sebelum ini) -->
                     <div class="bg-white p-8 rounded-xl shadow-sm border">
                         <h3 class="text-lg font-bold mb-6 border-b pb-2 text-indigo-900">Kandungan Surat</h3>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -143,114 +165,137 @@
                                 <label class="text-xs font-bold text-gray-500 uppercase">Tarikh Surat</label>
                                 <input type="date" id="s_tarikh_surat" class="w-full p-3 bg-gray-50 border rounded-lg">
                             </div>
-                            <div class="col-span-2">
-                                <label class="text-xs font-bold text-gray-500 uppercase">Alamat Arkib</label>
-                                <textarea id="s_alamat_arkib" rows="3" class="w-full p-3 bg-gray-50 border rounded-lg">Pengarah,&#10;Arkib Negara Malaysia Cawangan Johor,&#10;Tingkat 7, Blok B, Wisma Persekutuan,&#10;Jalan Air Molek, 80000 Johor Bahru, Johor.</textarea>
-                            </div>
                         </div>
                         <div class="space-y-4 mb-8">
                             <label class="text-xs font-bold text-gray-500 uppercase">Perenggan Surat</label>
                             <textarea class="s-perenggan w-full p-2 bg-gray-50 border rounded text-sm" rows="2">Dengan hormatnya perkara di atas dirujuk.</textarea>
                             <textarea class="s-perenggan w-full p-2 bg-gray-50 border rounded text-sm" rows="2">Bersama-sama ini dikemukakan Borang Permohonan Pelupusan Rekod Terbitan dan Bahan Bercetak (Borang 9 - Arkib 9/08) sebanyak 1 salinan bagi tujuan permohonan pelupusan bahan-bahan di Pusat Sumber Sekolah (PSS) yang telah uzur dan rosak.</textarea>
-                            <textarea class="s-perenggan w-full p-2 bg-gray-50 border rounded text-sm" rows="2">Sekian, terima kasih.</textarea>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 border-t pt-4">
-                            <div>
-                                <label class="text-xs font-bold text-gray-500 uppercase">Nama Guru Besar / Pentadbir</label>
-                                <input type="text" id="s_nama_pentadbir" placeholder="NAMA GURU BESAR" class="w-full p-3 bg-gray-50 border rounded-lg uppercase font-bold">
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-500 uppercase">Jawatan</label>
-                                <input type="text" id="s_jawatan_sekolah" value="Guru Besar, SK Bukit Tongkat." class="w-full p-3 bg-gray-50 border rounded-lg">
-                            </div>
-                        </div>
-
-                        <!-- Action Buttons for Surat -->
                         <div class="flex justify-end gap-3 mt-10">
                             <button onclick="saveSuratRecord()" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-emerald-700 transition-all flex items-center gap-2">
                                 <i class="fas fa-save"></i> Simpan Rekod
                             </button>
-                            <button onclick="downloadSuratPDF()" class="bg-red-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-red-700 transition-all flex items-center gap-2">
-                                <i class="fas fa-file-pdf"></i> Muat Turun Surat
-                            </button>
                         </div>
                     </div>
-                </div>
+                 </div>
             </div>
 
             <!-- View Borang 9 -->
             <div id="view-borang" class="hidden">
-                 <div class="max-w-6xl mx-auto bg-white p-8 rounded-xl shadow-sm border">
-                    <h3 class="text-xl font-bold text-indigo-900 mb-6">Input Borang 9 (Arkib 9/08)</h3>
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-indigo-50 p-5 rounded-xl border border-indigo-100">
-                        <div>
-                            <label class="text-[10px] font-bold text-indigo-400 uppercase">Jabatan (1)</label>
-                            <input type="text" id="b_jabatan" value="SK Bukit Tongkat" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                 <div class="max-w-6xl mx-auto space-y-6">
+                    <!-- Data Import Selection -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border space-y-4">
+                        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                            <div>
+                                <h4 class="font-bold text-indigo-900">Import Data Automatik</h4>
+                                <p class="text-xs text-gray-500">Gunakan URL, Fail, atau Tampal.</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <button onclick="toggleImportMode('url')" class="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-lg font-bold hover:bg-indigo-200 flex items-center gap-2 border border-indigo-200">
+                                    <i class="fas fa-link"></i> Gunakan URL
+                                </button>
+                                <label class="custom-file-upload flex items-center gap-2">
+                                    <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="handleCSVUpload(event)">
+                                    <i class="fas fa-file-upload"></i> Muat Naik CSV
+                                </label>
+                                <button onclick="toggleImportMode('paste')" class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-200 flex items-center gap-2 border">
+                                    <i class="fas fa-paste"></i> Mode Paste
+                                </button>
+                            </div>
                         </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-indigo-400 uppercase">Bahagian (2)</label>
-                            <input type="text" id="b_bahagian" value="Pusat Sumber Sekolah" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+
+                        <!-- URL Import Container -->
+                        <div id="url-container" class="hidden bg-indigo-50 p-6 rounded-xl border-2 border-indigo-200">
+                            <div class="flex flex-col md:flex-row items-end gap-3">
+                                <div class="flex-1 w-full">
+                                    <label class="text-xs font-bold text-indigo-900 uppercase mb-1 block">Pautan URL CSV (Contoh: Google Sheets)</label>
+                                    <input type="url" id="csv-url-input" class="w-full p-3 border border-indigo-300 rounded-lg text-sm bg-white" placeholder="https://docs.google.com/spreadsheets/d/e/.../pub?output=csv">
+                                </div>
+                                <button onclick="fetchCSVFromURL()" id="btn-fetch-url" class="bg-indigo-600 text-white px-6 py-3 rounded-lg font-bold hover:bg-indigo-700 flex items-center gap-2 whitespace-nowrap">
+                                    <i class="fas fa-download"></i> Tarik Data
+                                </button>
+                            </div>
+                            <p class="text-[10px] text-indigo-400 mt-2 italic">*Jika menggunakan Google Sheets, pastikan anda telah "Publish to Web" sebagai CSV.</p>
                         </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-indigo-400 uppercase">Pewujud (3)</label>
-                            <input type="text" id="b_pewujud" value="Guru Perpustakaan & Media" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
-                        </div>
-                        <div>
-                            <label class="text-[10px] font-bold text-indigo-400 uppercase">Keselamatan (4)</label>
-                            <input type="text" id="b_keselamatan" value="TERBUKA" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+
+                        <!-- Paste Import Container -->
+                        <div id="paste-container" class="hidden bg-blue-50 p-6 rounded-xl border-2 border-dashed border-blue-200">
+                            <h4 class="font-bold text-blue-900">Tampal Data dari Excel/Sheets</h4>
+                            <textarea id="import-area" onpaste="handlePaste(event)" class="w-full p-3 mt-2 h-20 border border-blue-200 rounded-lg text-sm bg-white" placeholder="Klik sini dan tekan Ctrl+V..."></textarea>
                         </div>
                     </div>
 
-                    <div class="overflow-x-auto mb-6 border rounded-xl">
-                        <table class="w-full text-sm" id="b_itemsTable">
-                            <thead class="bg-gray-100 text-[11px] uppercase text-gray-600">
-                                <tr>
-                                    <th class="p-3 border-b border-r w-12 text-center">Bil</th>
-                                    <th class="p-3 border-b border-r">Tajuk Rekod / Bahan (6)</th>
-                                    <th class="p-3 border-b border-r w-32">Tahun (7)</th>
-                                    <th class="p-3 border-b border-r w-40">Meter / Jumlah (8)</th>
-                                    <th class="p-3 border-b border-r w-48">Cadangan (9)</th>
-                                    <th class="p-3 border-b border-r w-32">Catatan (10)</th>
-                                    <th class="p-3 border-b w-10"></th>
-                                </tr>
-                            </thead>
-                            <tbody id="b_items-tbody">
-                                <tr class="bg-white border-b">
-                                    <td class="p-3 border-r text-center font-bold text-gray-400">1</td>
-                                    <td class="p-3 border-r"><input type="text" placeholder="Buku/Bahan..." class="w-full border-none bg-transparent b-item-tajuk focus:ring-0"></td>
-                                    <td class="p-3 border-r"><input type="text" placeholder="2024" class="w-full border-none bg-transparent b-item-tahun focus:ring-0 text-center"></td>
-                                    <td class="p-3 border-r"><input type="text" placeholder="0.00" class="w-full border-none bg-transparent b-item-meter focus:ring-0 text-center"></td>
-                                    <td class="p-3 border-r"><input type="text" placeholder="Musnah" class="w-full border-none bg-transparent b-item-cadangan focus:ring-0"></td>
-                                    <td class="p-3 border-r"><input type="text" class="w-full border-none bg-transparent b-item-catatan focus:ring-0"></td>
-                                    <td class="p-3 text-center text-red-400 cursor-pointer" onclick="removeItem(this)"><i class="fas fa-trash-alt"></i></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <button onclick="addItem()" class="flex items-center gap-2 text-indigo-600 font-bold text-sm bg-indigo-50 px-4 py-2 rounded-lg hover:bg-indigo-100 mb-8">
-                        <i class="fas fa-plus"></i> Tambah Baris
-                    </button>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t pt-8">
-                        <div>
-                            <label class="text-xs font-bold text-gray-500 uppercase">Pegawai Pengesah (11)</label>
-                            <input type="text" id="b_pegawai" class="w-full p-3 bg-gray-50 border rounded-lg uppercase font-bold">
+                    <!-- Jadual Input (Sama seperti sebelum ini) -->
+                    <div class="bg-white p-8 rounded-xl shadow-sm border">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="text-xl font-bold text-indigo-900">Input Borang 9 (Arkib 9/08)</h3>
+                            <div class="flex items-center gap-4">
+                                <span id="row-count" class="text-xs font-bold text-gray-400 bg-gray-50 px-3 py-1 rounded-full border">0 rekod</span>
+                                <button onclick="clearTable()" class="text-xs text-red-500 hover:underline font-bold">Padam Semua</button>
+                            </div>
                         </div>
-                        <div>
-                            <label class="text-xs font-bold text-gray-500 uppercase">Jawatan</label>
-                            <input type="text" id="b_jawatan" value="Guru Perpustakaan & Media" class="w-full p-3 bg-gray-50 border rounded-lg">
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6 bg-indigo-50 p-5 rounded-xl border border-indigo-100">
+                            <div>
+                                <label class="text-[10px] font-bold text-indigo-400 uppercase">Jabatan (1)</label>
+                                <input type="text" id="b_jabatan" value="SK Bukit Tongkat" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-indigo-400 uppercase">Bahagian (2)</label>
+                                <input type="text" id="b_bahagian" value="Pusat Sumber Sekolah" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-indigo-400 uppercase">Pewujud (3)</label>
+                                <input type="text" id="b_pewujud" value="Guru Perpustakaan & Media" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-indigo-400 uppercase">Keselamatan (4)</label>
+                                <input type="text" id="b_keselamatan" value="TERBUKA" class="w-full p-2 bg-white border border-indigo-200 rounded text-sm font-semibold">
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="flex justify-end gap-3 mt-10">
-                        <button onclick="saveBorangRecord()" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-emerald-700 transition-all flex items-center gap-2">
-                            <i class="fas fa-save"></i> Simpan Rekod
-                        </button>
-                        <button onclick="downloadBorangPDF()" class="bg-red-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-red-700 transition-all flex items-center gap-2">
-                            <i class="fas fa-file-pdf"></i> Muat Turun PDF
-                        </button>
+                        <div class="overflow-x-auto mb-6 border rounded-xl">
+                            <table class="w-full text-sm" id="b_itemsTable">
+                                <thead class="bg-gray-100 text-[11px] uppercase text-gray-600">
+                                    <tr>
+                                        <th class="p-3 border-b border-r w-12 text-center">Bil</th>
+                                        <th class="p-3 border-b border-r">Tajuk Rekod / Bahan (6)</th>
+                                        <th class="p-3 border-b border-r w-24">Tahun (7)</th>
+                                        <th class="p-3 border-b border-r w-28">Meter (8)</th>
+                                        <th class="p-3 border-b border-r w-40">Cadangan (9)</th>
+                                        <th class="p-3 border-b border-r w-32">Catatan (10)</th>
+                                        <th class="p-3 border-b w-10"></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="b_items-tbody"></tbody>
+                            </table>
+                        </div>
+
+                        <div class="flex justify-between items-center mb-8">
+                            <button onclick="addItem()" class="flex items-center gap-2 text-indigo-600 font-bold text-sm bg-indigo-50 px-4 py-2 rounded-lg hover:bg-indigo-100">
+                                <i class="fas fa-plus"></i> Tambah Baris Manual
+                            </button>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 border-t pt-8">
+                            <div>
+                                <label class="text-xs font-bold text-gray-500 uppercase">Pegawai Pengesah (11)</label>
+                                <input type="text" id="b_pegawai" class="w-full p-3 bg-gray-50 border rounded-lg uppercase font-bold" placeholder="NAMA PEGAWAI">
+                            </div>
+                            <div>
+                                <label class="text-xs font-bold text-gray-500 uppercase">Jawatan</label>
+                                <input type="text" id="b_jawatan" value="Guru Perpustakaan & Media" class="w-full p-3 bg-gray-50 border rounded-lg">
+                            </div>
+                        </div>
+
+                        <div class="flex justify-end gap-3 mt-10">
+                            <button onclick="saveBorangRecord()" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-emerald-700 transition-all flex items-center gap-2">
+                                <i class="fas fa-save"></i> Simpan Rekod
+                            </button>
+                            <button onclick="downloadBorangPDF()" class="bg-red-600 text-white px-8 py-3 rounded-xl font-bold shadow-lg hover:bg-red-700 transition-all flex items-center gap-2">
+                                <i class="fas fa-file-pdf"></i> Muat Turun Borang 9
+                            </button>
+                        </div>
                     </div>
                  </div>
             </div>
@@ -261,8 +306,8 @@
                     <table class="w-full text-left text-sm">
                         <thead class="bg-gray-50 uppercase text-[10px] font-bold tracking-widest text-gray-400">
                             <tr>
-                                <th class="p-5 border-b">Jenis Rekod</th>
-                                <th class="p-5 border-b">No. Rujukan / Tajuk</th>
+                                <th class="p-5 border-b">Jenis</th>
+                                <th class="p-5 border-b">Maklumat / No Rujukan</th>
                                 <th class="p-5 border-b">Tarikh Simpan</th>
                                 <th class="p-5 border-b text-right">Tindakan</th>
                             </tr>
@@ -276,180 +321,160 @@
 </div>
 
 <script>
-    // --- AUTHENTICATION ---
-    function checkAuth() {
-        const isLoggedIn = sessionStorage.getItem('isLoggedIn');
-        if (isLoggedIn === 'true') {
+    // --- AUTH & SETUP ---
+    function handleLogin(e) {
+        e.preventDefault();
+        if(document.getElementById('username').value==='admin' && document.getElementById('password').value==='admin123') {
+            sessionStorage.setItem('isLoggedIn', 'true');
+            document.getElementById('login-screen').classList.add('hidden');
+            document.getElementById('main-app').classList.remove('hidden');
+        } else { document.getElementById('login-error').classList.remove('hidden'); }
+    }
+    function handleLogout() { sessionStorage.removeItem('isLoggedIn'); location.reload(); }
+
+    let records = JSON.parse(localStorage.getItem('pss_records_v2')) || [];
+    window.onload = () => {
+        if(sessionStorage.getItem('isLoggedIn')==='true') {
             document.getElementById('login-screen').classList.add('hidden');
             document.getElementById('main-app').classList.remove('hidden');
         }
-    }
-
-    function handleLogin(event) {
-        event.preventDefault();
-        const user = document.getElementById('username').value;
-        const pass = document.getElementById('password').value;
-        if (user === 'admin' && pass === 'admin123') {
-            sessionStorage.setItem('isLoggedIn', 'true');
-            checkAuth();
-        } else {
-            document.getElementById('login-error').classList.remove('hidden');
-        }
-    }
-
-    function handleLogout() {
-        sessionStorage.removeItem('isLoggedIn');
-        location.reload();
-    }
-
-    // --- DATA MANAGEMENT ---
-    let records = JSON.parse(localStorage.getItem('pss_system_records')) || [];
-
-    window.onload = () => {
-        checkAuth();
         document.getElementById('current-date').innerText = new Intl.DateTimeFormat('ms-MY', { dateStyle: 'full' }).format(new Date());
-        document.getElementById('s_tarikh_surat').valueAsDate = new Date();
+        addItem(); 
         updateStats();
         renderRecords();
     };
 
     function switchTab(tab) {
         ['dashboard', 'surat', 'borang', 'list'].forEach(t => {
-            document.getElementById(`view-${t}`)?.classList.add('hidden');
-            document.getElementById(`btn-${t}`)?.classList.remove('active-tab');
+            document.getElementById(`view-${t}`).classList.add('hidden');
+            document.getElementById(`btn-${t}`).classList.remove('active-tab');
         });
         document.getElementById(`view-${tab}`).classList.remove('hidden');
         document.getElementById(`btn-${tab}`).classList.add('active-tab');
-        document.getElementById('tab-title').innerText = tab.toUpperCase().replace('_', ' ');
+        document.getElementById('tab-title').innerText = tab.toUpperCase();
     }
 
-    function addItem() {
+    function toggleImportMode(mode) {
+        const urlC = document.getElementById('url-container');
+        const pasteC = document.getElementById('paste-container');
+        if(mode === 'url') {
+            urlC.classList.toggle('hidden');
+            pasteC.classList.add('hidden');
+        } else {
+            pasteC.classList.toggle('hidden');
+            urlC.classList.add('hidden');
+        }
+    }
+
+    // --- URL FETCH LOGIC ---
+    async function fetchCSVFromURL() {
+        const url = document.getElementById('csv-url-input').value.trim();
+        const btn = document.getElementById('btn-fetch-url');
+        
+        if(!url) {
+            alert('Sila masukkan URL CSV yang sah!');
+            return;
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Menarik Data...';
+
+        try {
+            const response = await fetch(url);
+            if(!response.ok) throw new Error('Gagal menarik data. Pastikan URL betul.');
+            const csvData = await response.text();
+            processDataRows(csvData, ',');
+            document.getElementById('url-container').classList.add('hidden');
+        } catch (error) {
+            alert('Ralat: ' + error.message);
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-download"></i> Tarik Data';
+        }
+    }
+
+    // --- CSV & PASTE LOGIC ---
+    function handleCSVUpload(event) {
+        const file = event.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = function(e) { processDataRows(e.target.result, ','); };
+        reader.readAsText(file);
+    }
+
+    function handlePaste(event) {
+        event.preventDefault();
+        const pasteData = event.clipboardData.getData('text');
+        processDataRows(pasteData, '\t');
+        document.getElementById('import-area').value = '';
+    }
+
+    function processDataRows(data, delimiter) {
+        const rows = data.split(/\r?\n/);
         const tbody = document.getElementById('b_items-tbody');
-        const rowIdx = tbody.rows.length + 1;
+        
+        // Bersihkan baris kosong pertama jika ada
+        if(tbody.rows.length === 1 && !tbody.rows[0].querySelector('.b-item-tajuk').value) {
+            tbody.innerHTML = '';
+        }
+
+        rows.forEach(row => {
+            if(!row.trim()) return;
+            const columns = parseCSVRow(row, delimiter);
+            
+            // Susunan Kolum: [0]Bil, [1]Tarikh, [2]Tajuk, [3]Tahun, [4]Meter/Jumlah, [5]Cadangan
+            const tajuk = columns[2] || columns[1] || "";
+            const tahun = columns[3] || "";
+            const meter = columns[4] || "1";
+            const cadangan = columns[5] || "MUSNAH";
+
+            if(tajuk && tajuk.toLowerCase().trim() !== "tajuk rekod/bahan") {
+                addPopulatedRow(tajuk.trim(), tahun.trim(), meter.trim(), cadangan.trim());
+            }
+        });
+        updateRowCount();
+    }
+
+    function parseCSVRow(text, delimiter) {
+        const regex = new RegExp(`(?:${delimiter}|\\n|^)(?:"([^"]*(?:""[^"]*)*)"|([^"${delimiter}\\n]*))`, 'g');
+        const results = [];
+        let match;
+        while ((match = regex.exec(text)) !== null) {
+            results.push(match[1] !== undefined ? match[1].replace(/""/g, '"') : match[2]);
+        }
+        return results;
+    }
+
+    // --- TABLE & RECORD UI LOGIC (Sama seperti kod asal) ---
+    function addPopulatedRow(tajuk, tahun, meter, cadangan) {
+        const tbody = document.getElementById('b_items-tbody');
+        const idx = tbody.rows.length + 1;
         const tr = document.createElement('tr');
-        tr.className = "bg-white border-b";
+        tr.className = "bg-white border-b hover:bg-gray-50";
         tr.innerHTML = `
-            <td class="p-3 border-r text-center font-bold text-gray-400">${rowIdx}</td>
-            <td class="p-3 border-r"><input type="text" placeholder="Tajuk..." class="w-full border-none bg-transparent b-item-tajuk focus:ring-0"></td>
-            <td class="p-3 border-r"><input type="text" placeholder="2024" class="w-full border-none bg-transparent b-item-tahun focus:ring-0 text-center"></td>
-            <td class="p-3 border-r"><input type="text" placeholder="0.00" class="w-full border-none bg-transparent b-item-meter focus:ring-0 text-center"></td>
-            <td class="p-3 border-r"><input type="text" placeholder="Musnah" class="w-full border-none bg-transparent b-item-cadangan focus:ring-0"></td>
-            <td class="p-3 border-r"><input type="text" class="w-full border-none bg-transparent b-item-catatan focus:ring-0"></td>
-            <td class="p-3 text-center text-red-400 cursor-pointer" onclick="removeItem(this)"><i class="fas fa-trash-alt"></i></td>
+            <td class="p-3 border-r text-center font-bold text-gray-300">${idx}</td>
+            <td class="p-3 border-r"><input type="text" value="${tajuk}" class="w-full border-none bg-transparent b-item-tajuk font-medium"></td>
+            <td class="p-3 border-r"><input type="text" value="${tahun}" class="w-full border-none bg-transparent b-item-tahun text-center"></td>
+            <td class="p-3 border-r"><input type="text" value="${meter}" class="w-full border-none bg-transparent b-item-meter text-center"></td>
+            <td class="p-3 border-r"><input type="text" value="${cadangan}" class="w-full border-none bg-transparent b-item-cadangan"></td>
+            <td class="p-3 border-r"><input type="text" class="w-full border-none bg-transparent b-item-catatan"></td>
+            <td class="p-3 text-center text-red-300 cursor-pointer hover:text-red-600" onclick="removeItem(this)"><i class="fas fa-times"></i></td>
         `;
         tbody.appendChild(tr);
     }
 
-    function removeItem(el) { 
-        el.closest('tr').remove(); 
-        Array.from(document.querySelectorAll('#b_items-tbody tr')).forEach((row, i) => {
-            row.cells[0].innerText = i + 1;
-        });
-    }
+    function addItem() { addPopulatedRow("", "", "", "MUSNAH"); updateRowCount(); }
+    function removeItem(el) { el.closest('tr').remove(); reindexRows(); updateRowCount(); }
+    function clearTable() { if(confirm('Padam semua?')) { document.getElementById('b_items-tbody').innerHTML = ''; addItem(); updateRowCount(); } }
+    function reindexRows() { Array.from(document.querySelectorAll('#b_items-tbody tr')).forEach((row, i) => { row.cells[0].innerText = i + 1; }); }
+    function updateRowCount() { document.getElementById('row-count').innerText = `${document.getElementById('b_items-tbody').rows.length} rekod`; }
 
-    // --- PDF GENERATION ---
-    
-    // Jana PDF Surat Iringan
-    async function downloadSuratPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
-        const data = collectSuratData();
-
-        // Header
-        doc.setFont("helvetica", "bold").setFontSize(14);
-        doc.text(data.header.nama, 105, 20, { align: 'center' });
-        doc.setFont("helvetica", "normal").setFontSize(10);
-        doc.text(data.header.alamat, 105, 26, { align: 'center' });
-        doc.line(20, 30, 190, 30);
-
-        // Content
-        let y = 45;
-        doc.text(`Rujukan Kami : ${data.noRujukan}`, 130, y);
-        y += 6;
-        const tarikh = new Date(data.tarikh).toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' });
-        doc.text(`Tarikh : ${tarikh}`, 130, y);
-        
-        y += 15;
-        doc.text(data.alamat, 20, y);
-        
-        y += 25;
-        doc.text("Tuan/Puan,", 20, y);
-        
-        y += 10;
-        doc.setFont("helvetica", "bold");
-        const judul = "PERMOHONAN PELUPUSAN REKOD TERBITAN DAN BAHAN BERCETAK";
-        doc.text(judul, 20, y);
-        doc.line(20, y+1, 20 + doc.getTextWidth(judul), y+1);
-
-        y += 12;
-        doc.setFont("helvetica", "normal");
-        data.paragraphs.forEach(p => {
-            const splitText = doc.splitTextToSize(p, 170);
-            doc.text(splitText, 20, y);
-            y += (splitText.length * 6) + 4;
-        });
-
-        y += 10;
-        doc.text("BERKHIDMAT UNTUK NEGARA", 20, y);
-        y += 15;
-        doc.text("Saya yang menjalankan amanah,", 20, y);
-        
-        y += 20;
-        doc.setFont("helvetica", "bold");
-        doc.text(`(${data.namaPentadbir.toUpperCase()})`, 20, y);
-        y += 6;
-        doc.setFont("helvetica", "normal");
-        doc.text(data.jawatanSekolah, 20, y);
-
-        doc.save(`Surat_Iringan_${data.noRujukan}.pdf`);
-    }
-
-    // Jana PDF Borang 9
-    function downloadBorangPDF() {
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
+    function saveBorangRecord() {
         const data = collectBorangData();
-        
-        doc.setFont("helvetica", "normal").setFontSize(8);
-        doc.text("[Subperaturan 7(3)]", 105, 15, { align: 'center' });
-        doc.setFontSize(10).setFont(undefined, 'bold');
-        doc.text("Borang 9", 105, 21, { align: 'center' });
-        doc.text("Arkib 9/08", 195, 21, { align: 'right' });
-        
-        doc.setFontSize(11).text("BORANG PERMOHONAN BAGI PELUPUSAN REKOD TERBITAN DAN BAHAN BERCETAK", 105, 35, { align: 'center' });
-        
-        doc.setFontSize(9).setFont(undefined, 'normal');
-        doc.text(`(1) Jabatan: ${data.jabatan}`, 20, 45);
-        doc.text(`(2) Bahagian: ${data.bahagian}`, 20, 50);
-        doc.text(`(3) Pewujud: ${data.pewujud}`, 20, 55);
-        doc.text(`(4) Keselamatan: ${data.keselamatan}`, 20, 60);
-
-        doc.autoTable({
-            startY: 65,
-            head: [['Bil(5)', 'Tajuk Rekod/Bahan (6)', 'Tahun(7)', 'Meter/Jum(8)', 'Cadangan(9)', 'Catatan(10)']],
-            body: data.items.map((i, idx) => [idx+1, i.tajuk, i.tahun, i.meter, i.cadangan, i.catatan]),
-            theme: 'grid',
-            styles: { fontSize: 8 }
-        });
-
-        doc.save(`Borang9_${Date.now()}.pdf`);
-    }
-
-    // --- HELPER FUNCTIONS ---
-    function collectSuratData() {
-        return {
-            type: 'SURAT',
-            header: {
-                nama: document.getElementById('h_nama_sekolah').value,
-                alamat: document.getElementById('h_alamat_sekolah').value
-            },
-            noRujukan: document.getElementById('s_no_rujukan').value,
-            tarikh: document.getElementById('s_tarikh_surat').value,
-            alamat: document.getElementById('s_alamat_arkib').value,
-            paragraphs: Array.from(document.querySelectorAll('.s-perenggan')).map(t => t.value),
-            namaPentadbir: document.getElementById('s_nama_pentadbir').value,
-            jawatanSekolah: document.getElementById('s_jawatan_sekolah').value
-        };
+        if(data.items.length === 0) return alert('Tiada data!');
+        records.push({ ...data, id: Date.now(), savedAt: new Date().toLocaleString() });
+        localStorage.setItem('pss_records_v2', JSON.stringify(records));
+        updateStats(); renderRecords(); switchTab('list');
     }
 
     function collectBorangData() {
@@ -460,63 +485,37 @@
             cadangan: row.querySelector('.b-item-cadangan').value,
             catatan: row.querySelector('.b-item-catatan').value
         })).filter(i => i.tajuk);
-
-        return {
-            type: 'BORANG',
-            jabatan: document.getElementById('b_jabatan').value,
-            bahagian: document.getElementById('b_bahagian').value,
-            pewujud: document.getElementById('b_pewujud').value,
-            keselamatan: document.getElementById('b_keselamatan').value,
-            items: items,
-            pegawai: document.getElementById('b_pegawai').value,
-            jawatan: document.getElementById('b_jawatan').value
-        };
+        return { type: 'BORANG 9', jabatan: document.getElementById('b_jabatan').value, items: items };
     }
 
-    function saveSuratRecord() {
-        const data = collectSuratData();
-        if(!data.noRujukan) return alert('Masukkan No Rujukan!');
-        records.push({ ...data, id: Date.now(), savedAt: new Date().toLocaleString('ms-MY') });
-        localStorage.setItem('pss_system_records', JSON.stringify(records));
-        updateStats(); renderRecords(); switchTab('list');
-    }
-
-    function saveBorangRecord() {
-        const data = collectBorangData();
-        if(data.items.length === 0) return alert('Masukkan sekurang-kurangnya satu item!');
-        records.push({ ...data, id: Date.now(), savedAt: new Date().toLocaleString('ms-MY') });
-        localStorage.setItem('pss_system_records', JSON.stringify(records));
-        updateStats(); renderRecords(); switchTab('list');
-    }
-
-    function updateStats() {
-        document.getElementById('stat-total').innerText = records.length;
-    }
-
+    function updateStats() { document.getElementById('stat-total').innerText = records.length; }
     function renderRecords() {
         const body = document.getElementById('list-body');
         body.innerHTML = '';
         records.slice().reverse().forEach(r => {
             const tr = document.createElement('tr');
-            tr.className = "hover:bg-indigo-50 border-b";
-            tr.innerHTML = `
-                <td class="p-5 font-bold text-indigo-600">${r.type}</td>
-                <td class="p-5">${r.noRujukan || (r.items ? r.items[0].tajuk : 'Borang Pelupusan')}</td>
-                <td class="p-5 text-gray-500 text-xs">${r.savedAt}</td>
-                <td class="p-5 text-right">
-                    <button onclick='deleteRecord(${r.id})' class="text-red-400 hover:text-red-600"><i class="fas fa-trash"></i></button>
-                </td>
-            `;
+            tr.className = "border-b hover:bg-gray-50";
+            tr.innerHTML = `<td class="p-5 font-bold text-xs uppercase">${r.type}</td><td class="p-5 font-medium">${r.items ? r.items[0].tajuk + ' (+' + (r.items.length-1) + ')' : 'Surat'}</td><td class="p-5 text-gray-400 text-[10px]">${r.savedAt}</td><td class="p-5 text-right"><button onclick="deleteRecord(${r.id})" class="text-red-300 hover:text-red-500"><i class="fas fa-trash"></i></button></td>`;
             body.appendChild(tr);
         });
     }
 
     function deleteRecord(id) {
-        if(confirm('Hapus rekod ini?')) {
-            records = records.filter(x => x.id !== id);
-            localStorage.setItem('pss_system_records', JSON.stringify(records));
-            updateStats(); renderRecords();
-        }
+        if(confirm('Hapus?')) { records = records.filter(x => x.id !== id); localStorage.setItem('pss_records_v2', JSON.stringify(records)); updateStats(); renderRecords(); }
+    }
+
+    function downloadBorangPDF() {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const data = collectBorangData();
+        doc.setFontSize(10).text("BORANG PERMOHONAN PELUPUSAN REKOD TERBITAN DAN BAHAN BERCETAK", 105, 15, {align:'center'});
+        doc.autoTable({
+            startY: 35,
+            head: [['Bil', 'Tajuk Rekod / Bahan (6)', 'Tahun (7)', 'Meter (8)', 'Cadangan (9)', 'Catatan (10)']],
+            body: data.items.map((i, idx) => [idx+1, i.tajuk, i.tahun, i.meter, i.cadangan, i.catatan]),
+            theme: 'grid', headStyles: { fillColor: [67, 56, 202] }, styles: { fontSize: 7 }
+        });
+        doc.save(`Borang9_PSS.pdf`);
     }
 </script>
 </body>

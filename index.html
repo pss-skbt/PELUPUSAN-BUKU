@@ -493,102 +493,118 @@
     }
 
     async function downloadSuratPDF() { console.log('Jana PDF Surat'); }
-   async function downloadBorangPDF() {
+  async function downloadBorangPDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF('p', 'mm', 'a4');
 
-    const pageWidth = doc.internal.pageSize.width;
+    const centerX = doc.internal.pageSize.width / 2;
 
-    // HEADER
+    // ===== HEADER =====
     doc.setFontSize(10);
-    doc.text("[Subperaturan 7(3)]", pageWidth / 2, 10, { align: "center" });
+    doc.text("[Subperaturan 7(3)]", centerX, 10, { align: "center" });
 
     doc.setFontSize(12);
-    doc.text("Borang 9", pageWidth / 2, 16, { align: "center" });
+    doc.text("Borang 9", centerX, 15, { align: "center" });
 
     doc.setFontSize(10);
-    doc.text("BORANG PERMOHONAN BAGI PELUPUSAN", pageWidth / 2, 22, { align: "center" });
-    doc.text("REKOD TERBITAN DAN BAHAN BERCETAK", pageWidth / 2, 27, { align: "center" });
-    doc.text("(YANG TIDAK DINYATAKAN DALAM JADUAL PELUPUSAN REKOD)", pageWidth / 2, 32, { align: "center" });
+    doc.text("Arkib 9/08", centerX, 20, { align: "center" });
 
-    let startY = 36;
+    doc.text("BORANG PERMOHONAN BAGI PELUPUSAN", centerX, 25, { align: "center" });
+    doc.text("REKOD TERBITAN DAN BAHAN BERCETAK", centerX, 30, { align: "center" });
+    doc.text("(YANG TIDAK DINYATAKAN DALAM JADUAL PELUPUSAN REKOD)", centerX, 35, { align: "center" });
 
-    // BOX
-    doc.rect(10, startY, 190, 100);
-    doc.rect(10, startY, 130, 40);
-    doc.rect(140, startY, 60, 40);
+    let y = 40;
 
-    doc.setFontSize(9);
-    doc.text("BUTIR-BUTIR JABATAN", 15, startY + 5);
-
-    doc.setFontSize(8);
-    doc.text("(1) Kementerian/Jabatan:", 12, startY + 12);
-    doc.text(document.getElementById("b_jabatan").value, 60, startY + 12);
-
-    doc.text("(2) Bahagian/Unit:", 12, startY + 18);
-    doc.text(document.getElementById("b_bahagian").value, 60, startY + 18);
-
-    doc.text("(3) Pewujud Rekod:", 12, startY + 24);
-    doc.text(document.getElementById("b_pewujud").value, 60, startY + 24);
+    // ===== KOTAK JABATAN =====
+    doc.rect(10, y, 190, 35);
+    doc.rect(10, y, 130, 35);
+    doc.rect(140, y, 60, 35);
 
     doc.setFontSize(9);
-    doc.text("Untuk Kegunaan Arkib Negara", 142, startY + 5);
+    doc.text("BUTIR-BUTIR JABATAN", 12, y + 5);
 
     doc.setFontSize(8);
-    doc.text("Tarikh Terima:", 142, startY + 15);
-    doc.text("Jumlah Rekod:", 142, startY + 22);
-    doc.text("No. Penerimaan:", 142, startY + 29);
+    doc.text("(1) Kementerian/Jabatan/Agensi:", 12, y + 12);
+    doc.text(document.getElementById("b_jabatan").value, 70, y + 12);
 
-    let tableY = startY + 40;
+    doc.text("(2) Bahagian/Cawangan/Unit:", 12, y + 18);
+    doc.text(document.getElementById("b_bahagian").value, 70, y + 18);
 
-    doc.rect(10, tableY, 190, 10);
-    doc.text("MAKLUMAT MENGENAI REKOD", 12, tableY + 6);
+    doc.text("(3) Pewujud Rekod:", 12, y + 24);
+    doc.text(document.getElementById("b_pewujud").value, 70, y + 24);
 
-    doc.text("(4) Peringkat Keselamatan: " + document.getElementById("b_keselamatan").value, 12, tableY + 16);
+    // kanan
+    doc.text("Untuk Kegunaan Arkib Negara", 142, y + 5);
+    doc.text("Tarikh Terima:", 142, y + 15);
+    doc.text("Jumlah Rekod:", 142, y + 22);
+    doc.text("No. Penerimaan:", 142, y + 29);
 
-    let rows = [];
+    // ===== MAKLUMAT =====
+    y += 40;
+    doc.rect(10, y, 190, 10);
+    doc.text("MAKLUMAT MENGENAI REKOD", 12, y + 6);
+
+    doc.text("(4) Peringkat Keselamatan: " + document.getElementById("b_keselamatan").value, 12, y + 15);
+
+    // ===== TABLE GRID MANUAL =====
+    let tableY = y + 20;
+
+    const colX = [10, 25, 80, 115, 140, 165, 200];
+
+    // Header box
+    doc.rect(10, tableY, 190, 20);
+
+    // Vertical lines
+    colX.forEach(x => doc.line(x, tableY, x, tableY + 20));
+
+    // Header text
+    doc.setFontSize(7);
+    doc.text("Bil.\n(5)", 12, tableY + 5);
+    doc.text("Tajuk\n(6)", 27, tableY + 5);
+    doc.text("Tahun/Tarikh\nDiterbitkan (7)", 82, tableY + 5);
+    doc.text("Meter\nPanjang/Jumlah (8)", 117, tableY + 5);
+    doc.text("Cadangan\nPelupusan (9)", 142, tableY + 5);
+    doc.text("Catatan\n(10)", 167, tableY + 5);
+
+    // ===== DATA ROW =====
+    let rowY = tableY + 20;
+
     document.querySelectorAll("#b_items-tbody tr").forEach((tr, i) => {
-        rows.push([
-            i + 1,
-            tr.querySelector(".i-tajuk").value,
-            tr.querySelector(".i-tahun").value,
-            tr.querySelector(".i-meter").value,
-            tr.querySelector(".i-cadangan").value,
-            tr.querySelector(".i-catatan").value
-        ]);
+        doc.rect(10, rowY, 190, 10);
+        colX.forEach(x => doc.line(x, rowY, x, rowY + 10));
+
+        doc.setFontSize(8);
+
+        doc.text(String(i + 1), 12, rowY + 6);
+        doc.text(tr.querySelector(".i-tajuk").value, 27, rowY + 6);
+        doc.text(tr.querySelector(".i-tahun").value, 82, rowY + 6);
+        doc.text(tr.querySelector(".i-meter").value, 117, rowY + 6);
+        doc.text(tr.querySelector(".i-cadangan").value, 142, rowY + 6);
+        doc.text(tr.querySelector(".i-catatan").value, 167, rowY + 6);
+
+        rowY += 10;
     });
 
-    doc.autoTable({
-        startY: tableY + 20,
-        margin: { left: 10, right: 10 },
-        head: [[
-            "Bil (5)",
-            "Tajuk (6)",
-            "Tahun (7)",
-            "Meter (8)",
-            "Cadangan (9)",
-            "Catatan (10)"
-        ]],
-        body: rows,
-        styles: { fontSize: 7 },
-        theme: 'grid'
-    });
-
-    let endY = doc.lastAutoTable.finalY + 10;
+    // ===== PENUTUP =====
+    rowY += 5;
 
     doc.setFontSize(8);
-    doc.text("(11) Mengikut Seksyen 25 dan 26 Akta Arkib Negara 2003 (Akta 629)", 10, endY);
+    doc.text("(11) Mengikut Seksyen 25 dan 26, Akta Arkib Negara 2003 (Akta 629), saya mengemukakan permohonan ini bagi pelupusan rekod di atas:", 10, rowY);
 
-    doc.text("Nama Pegawai:", 10, endY + 10);
-    doc.text(document.getElementById("b_pegawai").value, 50, endY + 10);
+    rowY += 10;
 
-    doc.text("Jawatan:", 10, endY + 16);
-    doc.text(document.getElementById("b_jawatan").value, 50, endY + 16);
+    doc.text("Nama Pegawai:", 10, rowY);
+    doc.text(document.getElementById("b_pegawai").value, 50, rowY);
 
-    doc.text("Tarikh:", 10, endY + 22);
-    doc.text(new Date().toLocaleDateString("ms-MY"), 50, endY + 22);
+    doc.text("Jawatan:", 10, rowY + 7);
+    doc.text(document.getElementById("b_jawatan").value, 50, rowY + 7);
 
-    doc.save("Borang_Arkib_9_08.pdf");
+    doc.text("Tandatangan dan Meterai/Cap Jabatan:", 110, rowY);
+
+    doc.text("Tarikh:", 10, rowY + 14);
+    doc.text(new Date().toLocaleDateString("ms-MY"), 50, rowY + 14);
+
+    doc.save("Borang_Arkib_Exact.pdf");
 }
     async function downloadBorang2PDF() { console.log('Jana PDF Borang 2'); }
 

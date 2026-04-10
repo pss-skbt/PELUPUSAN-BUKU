@@ -62,6 +62,7 @@
             <button onclick="switchTab('surat')" id="btn-surat" class="sidebar-item w-full flex items-center px-6 py-4 transition-colors"><i class="fas fa-envelope mr-3"></i> Jana Surat Iringan</button>
             <button onclick="switchTab('borang')" id="btn-borang" class="sidebar-item w-full flex items-center px-6 py-4 transition-colors"><i class="fas fa-file-alt mr-3"></i> Jana Borang 9/08</button>
             <button onclick="switchTab('borang2')" id="btn-borang2" class="sidebar-item w-full flex items-center px-6 py-4 transition-colors"><i class="fas fa-file-signature mr-3"></i> Jana Borang 2/08</button>
+            <button onclick="switchTab('borang12')" id="btn-borang12" class="sidebar-item w-full flex items-center px-6 py-4 transition-colors"><i class="fas fa-check-double mr-3"></i> Jana Borang 12/08</button>
             <button onclick="switchTab('list')" id="btn-list" class="sidebar-item w-full flex items-center px-6 py-4 transition-colors"><i class="fas fa-list mr-3"></i> Senarai Rekod</button>
         </nav>
         <div class="p-4 border-t border-indigo-800">
@@ -272,6 +273,152 @@
                 </div>
             </div>
 
+            <!-- ===================== BORANG 12/08 ===================== -->
+            <div id="view-borang12" class="hidden">
+                <div class="max-w-4xl mx-auto space-y-6">
+
+                    <!-- Header Info -->
+                    <div class="bg-white p-8 rounded-xl shadow-sm border">
+                        <h3 class="text-xl font-bold text-indigo-900 mb-1">Borang 12 (Arkib 12/08)</h3>
+                        <p class="text-sm text-gray-500 mb-6">Penentusahan Pemusnahan Rekod Awam — [Peraturan 9(2)]</p>
+
+                        <!-- Bahagian A: Butir Jabatan -->
+                        <div class="bg-indigo-50 p-5 rounded-xl border border-indigo-100 mb-6">
+                            <h4 class="text-xs font-bold text-indigo-700 uppercase mb-4 tracking-wider">Butir-Butir Jabatan</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-[10px] font-bold text-indigo-400 uppercase block mb-1">(1) Kementerian/Jabatan/Agensi</label>
+                                    <input type="text" id="b12_jabatan" value="SK BUKIT TONGKAT" class="w-full p-3 bg-white border border-indigo-200 rounded-lg text-sm font-bold uppercase">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-indigo-400 uppercase block mb-1">(2) Bahagian/Cawangan/Unit</label>
+                                    <input type="text" id="b12_bahagian" value="PUSAT SUMBER SEKOLAH" class="w-full p-3 bg-white border border-indigo-200 rounded-lg text-sm font-bold uppercase">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bahagian B: Maklumat Rekod -->
+                        <div class="bg-gray-50 p-5 rounded-xl border mb-6">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-wider">Maklumat Mengenai Rekod</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">(3.1) No. Rujukan Surat Kebenaran Pemusnahan</label>
+                                    <input type="text" id="b12_no_rujukan" placeholder="Contoh: JPN.J/100-3/1/1" class="w-full p-3 bg-white border rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">(3.2) Tarikh Surat Kebenaran</label>
+                                    <input type="date" id="b12_tarikh_kebenaran" class="w-full p-3 bg-white border rounded-lg text-sm">
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">(4) Perihal Rekod</label>
+                                <textarea id="b12_perihal" rows="3" placeholder="Huraikan rekod yang dimusnahkan..." class="w-full p-3 bg-white border rounded-lg text-sm resize-none"></textarea>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">(5) Meter Panjang Rekod Yang Dimusnahkan</label>
+                                    <input type="text" id="b12_meter" placeholder="Contoh: 0.05" class="w-full p-3 bg-white border rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">(6) Peringkat Keselamatan</label>
+                                    <input type="text" id="b12_keselamatan" value="TERBUKA" class="w-full p-3 bg-white border rounded-lg text-sm uppercase">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bahagian C: Kaedah Pemusnahan -->
+                        <div class="bg-amber-50 p-5 rounded-xl border border-amber-100 mb-6">
+                            <h4 class="text-xs font-bold text-amber-700 uppercase mb-4 tracking-wider">(7) Kaedah Pemusnahan</h4>
+                            <div class="flex flex-wrap gap-4 mb-4">
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="b12_kaedah" value="dibakar" class="accent-amber-600"> <span class="text-sm">Dibakar</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="b12_kaedah" value="dirincih" class="accent-amber-600" checked> <span class="text-sm">Dirincih</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="b12_kaedah" value="dikitar semula" class="accent-amber-600"> <span class="text-sm">Dikitar Semula</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="b12_kaedah" value="dipadamkan" class="accent-amber-600"> <span class="text-sm">Dipadamkan</span>
+                                </label>
+                                <label class="flex items-center gap-2 cursor-pointer">
+                                    <input type="radio" name="b12_kaedah" value="dijual" class="accent-amber-600"> <span class="text-sm">Dijual</span>
+                                </label>
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-amber-600 uppercase block mb-1">No. Resit (Jika Dijual)</label>
+                                <input type="text" id="b12_no_resit" placeholder="No. resit jika rekod dijual..." class="w-full md:w-1/2 p-3 bg-white border border-amber-200 rounded-lg text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Tarikh & Tempat -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">(8) Tarikh Pemusnahan</label>
+                                <input type="date" id="b12_tarikh_musnah" class="w-full p-3 bg-white border rounded-lg text-sm">
+                            </div>
+                            <div>
+                                <label class="text-[10px] font-bold text-gray-500 uppercase block mb-1">(9) Tempat Pemusnahan</label>
+                                <input type="text" id="b12_tempat" placeholder="Contoh: Premis Sekolah" class="w-full p-3 bg-white border rounded-lg text-sm">
+                            </div>
+                        </div>
+
+                        <!-- Pegawai Melaksana -->
+                        <div class="bg-blue-50 p-5 rounded-xl border border-blue-100 mb-6">
+                            <h4 class="text-xs font-bold text-blue-700 uppercase mb-4 tracking-wider">Pegawai Yang Melaksanakan Pemusnahan</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <label class="text-[10px] font-bold text-blue-400 uppercase block mb-1">(10) Nama Pegawai Pelaksana</label>
+                                    <input type="text" id="b12_nama_pelaksana" placeholder="NAMA PEGAWAI PELAKSANA" class="w-full p-3 bg-white border border-blue-200 rounded-lg text-sm font-bold uppercase">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-blue-400 uppercase block mb-1">Jawatan Pegawai Pelaksana</label>
+                                    <input type="text" id="b12_jawatan_pelaksana" value="Guru Perpustakaan & Media" class="w-full p-3 bg-white border border-blue-200 rounded-lg text-sm">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-[10px] font-bold text-blue-400 uppercase block mb-1">(11) Nama Saksi</label>
+                                    <input type="text" id="b12_nama_saksi" placeholder="NAMA SAKSI" class="w-full p-3 bg-white border border-blue-200 rounded-lg text-sm font-bold uppercase">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-blue-400 uppercase block mb-1">Jawatan Saksi</label>
+                                    <input type="text" id="b12_jawatan_saksi" value="Guru Besar" class="w-full p-3 bg-white border border-blue-200 rounded-lg text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Penentusahan -->
+                        <div class="bg-emerald-50 p-5 rounded-xl border border-emerald-100 mb-6">
+                            <h4 class="text-xs font-bold text-emerald-700 uppercase mb-4 tracking-wider">(12) Penentusahan</h4>
+                            <p class="text-xs text-gray-500 italic mb-4">Saya mengesahkan bahawa rekod di atas telah dimusnahkan dengan sewajarnya mengikut Seksyen 25 dan 26, Akta Arkib Negara 2003 [Akta 629]:</p>
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div>
+                                    <label class="text-[10px] font-bold text-emerald-600 uppercase block mb-1">Nama Pegawai Pengesah</label>
+                                    <input type="text" id="b12_nama_pengesah" placeholder="NAMA PEGAWAI PENGESAH" class="w-full p-3 bg-white border border-emerald-200 rounded-lg text-sm font-bold uppercase">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-emerald-600 uppercase block mb-1">Jawatan Pengesah</label>
+                                    <input type="text" id="b12_jawatan_pengesah" value="Guru Besar" class="w-full p-3 bg-white border border-emerald-200 rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="text-[10px] font-bold text-emerald-600 uppercase block mb-1">Tarikh Pengesahan</label>
+                                    <input type="date" id="b12_tarikh_pengesahan" class="w-full p-3 bg-white border border-emerald-200 rounded-lg text-sm">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Butang -->
+                        <div class="flex justify-end gap-3 mt-4">
+                            <button onclick="saveRecord('borang12')" class="bg-emerald-600 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-emerald-700"><i class="fas fa-save"></i> Simpan Rekod</button>
+                            <button onclick="downloadBorang12PDF()" class="bg-red-600 text-white px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-red-700"><i class="fas fa-file-pdf"></i> Muat Turun Borang 12/08</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ===================== END BORANG 12/08 ===================== -->
+
             <!-- Senarai Rekod -->
             <div id="view-list" class="hidden">
                 <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
@@ -324,17 +471,20 @@ window.onload = () => {
     renderRecords();
     const today = new Date().toISOString().split('T')[0];
     document.getElementById('s_tarikh_surat').value = today;
+    document.getElementById('b12_tarikh_kebenaran').value = today;
+    document.getElementById('b12_tarikh_musnah').value = today;
+    document.getElementById('b12_tarikh_pengesahan').value = today;
 };
 
 // ============ TABS ============
 function switchTab(tab) {
-    ['dashboard','surat','borang','borang2','list'].forEach(t => {
+    ['dashboard','surat','borang','borang2','borang12','list'].forEach(t => {
         document.getElementById(`view-${t}`).classList.add('hidden');
         document.getElementById(`btn-${t}`).classList.remove('active-tab');
     });
     document.getElementById(`view-${tab}`).classList.remove('hidden');
     document.getElementById(`btn-${tab}`).classList.add('active-tab');
-    const titles = { dashboard:'Dashboard', surat:'Jana Surat Iringan', borang:'Jana Borang 9/08', borang2:'Jana Borang 2/08', list:'Senarai Rekod' };
+    const titles = { dashboard:'Dashboard', surat:'Jana Surat Iringan', borang:'Jana Borang 9/08', borang2:'Jana Borang 2/08', borang12:'Jana Borang 12/08', list:'Senarai Rekod' };
     document.getElementById('tab-title').innerText = titles[tab] || tab;
 }
 
@@ -409,6 +559,7 @@ function saveRecord(type) {
     if (type === 'surat') ref = document.getElementById('s_no_rujukan').value;
     else if (type === 'borang') ref = document.getElementById('b_pegawai').value || 'Borang 9/08';
     else if (type === 'borang2') ref = document.getElementById('b2_pegawai').value || 'Borang 2/08';
+    else if (type === 'borang12') ref = document.getElementById('b12_no_rujukan').value || 'Borang 12/08';
     const data = { id, type, date: new Date().toLocaleDateString('ms-MY'), ref };
     records.unshift(data);
     localStorage.setItem('pss_records_v5', JSON.stringify(records));
@@ -430,7 +581,7 @@ function renderRecords() {
 function deleteRecord(id) { records = records.filter(r => r.id !== id); localStorage.setItem('pss_records_v5', JSON.stringify(records)); updateStats(); renderRecords(); }
 
 // ============================================================
-// PDF HELPER — draw wrapped text, return new Y
+// PDF HELPER
 // ============================================================
 function drawText(doc, text, x, y, maxWidth, fontSize = 8) {
     doc.setFontSize(fontSize);
@@ -440,325 +591,152 @@ function drawText(doc, text, x, y, maxWidth, fontSize = 8) {
 }
 
 // ============================================================
-//  BORANG 9/08 — pixel-perfect
+//  BORANG 9/08
 // ============================================================
 function downloadBorang9PDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-
-    const PW = 210, PH = 297;
-    const ML = 15, MR = 15;
-    const TW = PW - ML - MR;  // 180mm usable
+    const PW = 210, PH = 297, ML = 15, MR = 15;
+    const TW = PW - ML - MR;
     const CX = PW / 2;
-
-    // ---- FONT helpers ----
     const setFont = (style = 'normal', size = 8) => { doc.setFont('helvetica', style); doc.setFontSize(size); };
     const setColor = (r, g, b) => { doc.setTextColor(r, g, b); };
-
-    // ---- HEADER ----
-    setFont('normal', 9);
-    setColor(0,0,0);
+    setFont('normal', 9); setColor(0,0,0);
     doc.text('[Subperaturan 7(3)]', CX, 12, { align: 'center' });
-
-    setFont('bold', 11);
-    doc.text('Borang 9', CX, 18, { align: 'center' });
-
-    setFont('normal', 9);
-    doc.text('Arkib 9/08', PW - MR, 18, { align: 'right' });
-
+    setFont('bold', 11); doc.text('Borang 9', CX, 18, { align: 'center' });
+    setFont('normal', 9); doc.text('Arkib 9/08', PW - MR, 18, { align: 'right' });
     setFont('bold', 10);
     doc.text('BORANG PERMOHONAN BAGI PELUPUSAN', CX, 26, { align: 'center' });
     doc.text('REKOD TERBITAN DAN BAHAN BERCETAK', CX, 31, { align: 'center' });
-    setFont('normal', 9);
-    doc.text('( YANG TIDAK DINYATAKAN DALAM JADUAL PELUPUSAN REKOD )', CX, 36, { align: 'center' });
-
-    // ---- SECTION 1: BUTIR-BUTIR JABATAN ----
+    setFont('normal', 9); doc.text('( YANG TIDAK DINYATAKAN DALAM JADUAL PELUPUSAN REKOD )', CX, 36, { align: 'center' });
     let y = 41;
     const boxH1 = 42;
-    // Outer border
     doc.rect(ML, y, TW, boxH1);
-    // Vertical divider at 130mm from left (leaving 50mm for Arkib Negara box)
     doc.line(ML + 130, y, ML + 130, y + boxH1);
-
-    // Left column — "BUTIR-BUTIR JABATAN" header (centered, bold)
-    setFont('bold', 9);
-    doc.text('BUTIR-BUTIR JABATAN', ML + 65, y + 5, { align: 'center' });
-
-    // Right column — "Untuk Kegunaan Arkib Negara" (centered, bold)
-    setFont('bold', 8);
-    doc.text('Untuk Kegunaan Arkib Negara', ML + 130 + 25, y + 5, { align: 'center' });
-
-    // Horizontal line under header row
-    doc.line(ML, y + 8, ML + 130, y + 8);
-    doc.line(ML + 130, y + 8, ML + TW, y + 8);
-
-    // Row 1: (1) Kementerian | (2) Bahagian — split left at 65mm
+    setFont('bold', 9); doc.text('BUTIR-BUTIR JABATAN', ML + 65, y + 5, { align: 'center' });
+    setFont('bold', 8); doc.text('Untuk Kegunaan Arkib Negara', ML + 130 + 25, y + 5, { align: 'center' });
+    doc.line(ML, y + 8, ML + 130, y + 8); doc.line(ML + 130, y + 8, ML + TW, y + 8);
     doc.line(ML + 65, y + 8, ML + 65, y + 20);
-
+    setFont('normal', 7.5); doc.text('(1) Kementerian/Jabatan/Agensi:', ML + 2, y + 13);
+    setFont('bold', 7.5); doc.text(document.getElementById('b_jabatan').value, ML + 2, y + 18);
+    setFont('normal', 7.5); doc.text('(2) Bahagian/Cawangan/Unit:', ML + 67, y + 13);
+    setFont('bold', 7.5); doc.text(document.getElementById('b_bahagian').value, ML + 67, y + 18);
     setFont('normal', 7.5);
-    doc.text('(1) Kementerian/Jabatan/Agensi:', ML + 2, y + 13);
-    setFont('bold', 7.5);
-    doc.text(document.getElementById('b_jabatan').value, ML + 2, y + 18);
-
-    setFont('normal', 7.5);
-    doc.text('(2) Bahagian/Cawangan/Unit:', ML + 67, y + 13);
-    setFont('bold', 7.5);
-    doc.text(document.getElementById('b_bahagian').value, ML + 67, y + 18);
-
-    // Arkib Negara right column content
-    setFont('normal', 7.5);
-    doc.text('Tarikh Terima:', ML + 132, y + 13);
-    doc.text('Jumlah Rekod:', ML + 132, y + 19);
-    doc.text('No. Penerimaan:', ML + 132, y + 25);
-
-    // Horizontal line after row 1
+    doc.text('Tarikh Terima:', ML + 132, y + 13); doc.text('Jumlah Rekod:', ML + 132, y + 19); doc.text('No. Penerimaan:', ML + 132, y + 25);
     doc.line(ML, y + 20, ML + 130, y + 20);
-
-    // Row 2: (3) Pewujud Rekod — full left width
-    setFont('normal', 7.5);
-    doc.text('(3) Pewujud Rekod [Jika tidak sama dengan (1)]:', ML + 2, y + 25);
-    setFont('bold', 7.5);
-    doc.text(document.getElementById('b_pewujud').value, ML + 2, y + 31);
-
-    // ---- SECTION 2: MAKLUMAT MENGENAI REKOD ----
+    setFont('normal', 7.5); doc.text('(3) Pewujud Rekod [Jika tidak sama dengan (1)]:', ML + 2, y + 25);
+    setFont('bold', 7.5); doc.text(document.getElementById('b_pewujud').value, ML + 2, y + 31);
     y += boxH1;
     const secH = 8;
-    doc.rect(ML, y, 130, secH);
-    setFont('bold', 9);
-    doc.text('MAKLUMAT MENGENAI REKOD', ML + 65, y + 5.5, { align: 'center' });
-
+    doc.rect(ML, y, 130, secH); setFont('bold', 9); doc.text('MAKLUMAT MENGENAI REKOD', ML + 65, y + 5.5, { align: 'center' });
     y += secH;
     const ksH = 9;
-    doc.rect(ML, y, 130, ksH);
-    setFont('normal', 8);
-    doc.text('(4) Peringkat Keselamatan:', ML + 2, y + 5.5);
-    setFont('bold', 8);
-    doc.text(document.getElementById('b_keselamatan').value, ML + 60, y + 5.5);
-
-    // ---- SECTION 3: TABLE HEADER ----
+    doc.rect(ML, y, 130, ksH); setFont('normal', 8); doc.text('(4) Peringkat Keselamatan:', ML + 2, y + 5.5);
+    setFont('bold', 8); doc.text(document.getElementById('b_keselamatan').value, ML + 60, y + 5.5);
     y += ksH;
-    const ROW_H = 10;  // header row height
-    const DATA_H = 10; // data row height
-
-    // Column widths (total = 180mm)
-    // Bil | Tajuk | Tahun | Meter | Cadangan | Catatan
-    const cols = [12, 68, 26, 22, 26, 26]; // sum = 180
+    const ROW_H = 10, DATA_H = 10;
+    const cols = [12, 68, 26, 22, 26, 26];
     const colX = [ML];
     cols.forEach((w, i) => colX.push(colX[i] + w));
-
-    // Draw header box
     doc.rect(ML, y, TW, ROW_H);
-    cols.forEach((_, i) => {
-        if (i > 0) doc.line(colX[i], y, colX[i], y + ROW_H);
-    });
-
+    cols.forEach((_, i) => { if (i > 0) doc.line(colX[i], y, colX[i], y + ROW_H); });
     setFont('bold', 7);
-    // Header row - multi-line centered
     const headers = [
-        { lines: ['Bil.','(5)'] },
-        { lines: ['Tajuk','(6)'] },
-        { lines: ['Tahun/Tarikh','Diterbitkan (7)'] },
-        { lines: ['Meter','Panjang/','Jumlah (8)'] },
-        { lines: ['Cadangan','Pelupusan (9)'] },
-        { lines: ['Catatan','(10)'] }
+        { lines: ['Bil.','(5)'] }, { lines: ['Tajuk','(6)'] }, { lines: ['Tahun/Tarikh','Diterbitkan (7)'] },
+        { lines: ['Meter','Panjang/','Jumlah (8)'] }, { lines: ['Cadangan','Pelupusan (9)'] }, { lines: ['Catatan','(10)'] }
     ];
     headers.forEach((h, i) => {
         const cx = colX[i] + cols[i] / 2;
-        const totalLines = h.lines.length;
-        const startY = y + ROW_H / 2 - ((totalLines - 1) * 2.8) / 2 + 1.5;
-        h.lines.forEach((line, li) => doc.text(line, cx, startY + li * 2.8, { align: 'center' }));
+        const tl = h.lines.length;
+        const sy = y + ROW_H / 2 - ((tl - 1) * 2.8) / 2 + 1.5;
+        h.lines.forEach((line, li) => doc.text(line, cx, sy + li * 2.8, { align: 'center' }));
     });
-
-    // ---- DATA ROWS ----
     const items = document.querySelectorAll('#b_items-tbody tr');
     items.forEach((tr, idx) => {
         y += ROW_H;
-        // Draw row border
         doc.rect(ML, y, TW, DATA_H);
         cols.forEach((_, i) => { if (i > 0) doc.line(colX[i], y, colX[i], y + DATA_H); });
-
-        const vals = [
-            String(idx + 1),
-            tr.querySelector('.i-tajuk')?.value || '',
-            tr.querySelector('.i-tahun')?.value || '',
-            tr.querySelector('.i-meter')?.value || '',
-            tr.querySelector('.i-cadangan')?.value || '',
-            tr.querySelector('.i-catatan')?.value || ''
-        ];
-
+        const vals = [String(idx + 1), tr.querySelector('.i-tajuk')?.value||'', tr.querySelector('.i-tahun')?.value||'', tr.querySelector('.i-meter')?.value||'', tr.querySelector('.i-cadangan')?.value||'', tr.querySelector('.i-catatan')?.value||''];
         setFont('normal', 7.5);
         vals.forEach((val, i) => {
             const cx = i === 0 ? colX[i] + cols[i] / 2 : colX[i] + 1.5;
             const align = i === 0 ? 'center' : 'left';
-            const maxW = cols[i] - 3;
-            const lines = doc.splitTextToSize(val, maxW);
+            const lines = doc.splitTextToSize(val, cols[i] - 3);
             doc.text(lines[0], cx, y + 6, { align });
         });
     });
-
-    // Add empty rows if fewer than 8 items
     const emptyRows = Math.max(0, 8 - items.length);
     for (let e = 0; e < emptyRows; e++) {
-        y += DATA_H;
-        doc.rect(ML, y, TW, DATA_H);
+        y += DATA_H; doc.rect(ML, y, TW, DATA_H);
         cols.forEach((_, i) => { if (i > 0) doc.line(colX[i], y, colX[i], y + DATA_H); });
     }
-
-    // ---- SECTION 4: FOOTER ----
     y += DATA_H + 5;
-    const footerText = '(11) Mengikut Seksyen 25 dan 26, Akta Arkib Negara 2003 (Akta 629), saya mengemukakan permohonan ini bagi pelupusan rekod di atas:';
     setFont('normal', 7.5);
-    const footerLines = doc.splitTextToSize(footerText, TW);
-    doc.text(footerLines, ML, y);
-    y += footerLines.length * 3.5 + 3;
-
-    // Nama & Tandatangan row
-    setFont('normal', 8);
-    doc.text('Nama Pegawai:', ML, y);
-    setFont('bold', 8);
-    doc.text(document.getElementById('b_pegawai').value || '', ML + 35, y);
-    setFont('normal', 8);
-    doc.text('Tandatangan dan Meterai/Cap Jabatan:', ML + 95, y);
-
-    y += 7;
-    setFont('normal', 8);
-    doc.text('Jawatan:', ML, y);
-    setFont('bold', 8);
-    doc.text(document.getElementById('b_jawatan').value || '', ML + 35, y);
-
-    y += 7;
-    setFont('normal', 8);
-    doc.text('Tarikh:', ML, y);
-    setFont('bold', 8);
-    doc.text(new Date().toLocaleDateString('ms-MY'), ML + 35, y);
-
-    // Bottom "Arkib 9/08" right aligned
-    setFont('normal', 8);
-    doc.text('Arkib 9/08', PW - MR, PH - 8, { align: 'right' });
-
+    const ftLines = doc.splitTextToSize('(11) Mengikut Seksyen 25 dan 26, Akta Arkib Negara 2003 (Akta 629), saya mengemukakan permohonan ini bagi pelupusan rekod di atas:', TW);
+    doc.text(ftLines, ML, y); y += ftLines.length * 3.5 + 3;
+    setFont('normal', 8); doc.text('Nama Pegawai:', ML, y); setFont('bold', 8); doc.text(document.getElementById('b_pegawai').value||'', ML + 35, y);
+    setFont('normal', 8); doc.text('Tandatangan dan Meterai/Cap Jabatan:', ML + 95, y);
+    y += 7; setFont('normal', 8); doc.text('Jawatan:', ML, y); setFont('bold', 8); doc.text(document.getElementById('b_jawatan').value||'', ML + 35, y);
+    y += 7; setFont('normal', 8); doc.text('Tarikh:', ML, y); setFont('bold', 8); doc.text(new Date().toLocaleDateString('ms-MY'), ML + 35, y);
+    setFont('normal', 8); doc.text('Arkib 9/08', PW - MR, PH - 8, { align: 'right' });
     doc.save('Borang_Arkib_9-08.pdf');
 }
 
 // ============================================================
-//  BORANG 2/08 — pixel-perfect
+//  BORANG 2/08
 // ============================================================
 function downloadBorang2PDF() {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
-
-    const PW = 210, PH = 297;
-    const ML = 15, MR = 15;
+    const PW = 210, PH = 297, ML = 15, MR = 15;
     const TW = PW - ML - MR;
     const CX = PW / 2;
-
     const setFont = (style = 'normal', size = 8) => { doc.setFont('helvetica', style); doc.setFontSize(size); };
     const setColor = (r, g, b) => { doc.setTextColor(r, g, b); };
     setColor(0,0,0);
-
-    // ---- HEADER ----
-    setFont('normal', 9);
-    doc.text('[Subperaturan 7(1)]', CX, 12, { align: 'center' });
-
-    setFont('bold', 11);
-    doc.text('Borang 2', CX, 18, { align: 'center' });
-
-    setFont('normal', 9);
-    doc.text('Arkib 2/08', PW - MR, 18, { align: 'right' });
-
-    setFont('bold', 10);
-    doc.text('BORANG PERMOHONAN BAGI PELUPUSAN REKOD AWAM', CX, 26, { align: 'center' });
-    setFont('normal', 9);
-    doc.text('( YANG DINYATAKAN DALAM JADUAL PELUPUSAN REKOD )', CX, 31, { align: 'center' });
-
-    // ---- SECTION 1: BUTIR-BUTIR JABATAN ----
+    setFont('normal', 9); doc.text('[Subperaturan 7(1)]', CX, 12, { align: 'center' });
+    setFont('bold', 11); doc.text('Borang 2', CX, 18, { align: 'center' });
+    setFont('normal', 9); doc.text('Arkib 2/08', PW - MR, 18, { align: 'right' });
+    setFont('bold', 10); doc.text('BORANG PERMOHONAN BAGI PELUPUSAN REKOD AWAM', CX, 26, { align: 'center' });
+    setFont('normal', 9); doc.text('( YANG DINYATAKAN DALAM JADUAL PELUPUSAN REKOD )', CX, 31, { align: 'center' });
     let y = 36;
     const boxH1 = 42;
-    doc.rect(ML, y, TW, boxH1);
-    doc.line(ML + 130, y, ML + 130, y + boxH1);
-
-    setFont('bold', 9);
-    doc.text('BUTIR-BUTIR JABATAN', ML + 65, y + 5, { align: 'center' });
-
-    setFont('bold', 8);
-    doc.text('Untuk Kegunaan Arkib Negara', ML + 130 + 25, y + 5, { align: 'center' });
-
-    doc.line(ML, y + 8, ML + 130, y + 8);
-    doc.line(ML + 130, y + 8, ML + TW, y + 8);
-
+    doc.rect(ML, y, TW, boxH1); doc.line(ML + 130, y, ML + 130, y + boxH1);
+    setFont('bold', 9); doc.text('BUTIR-BUTIR JABATAN', ML + 65, y + 5, { align: 'center' });
+    setFont('bold', 8); doc.text('Untuk Kegunaan Arkib Negara', ML + 130 + 25, y + 5, { align: 'center' });
+    doc.line(ML, y + 8, ML + 130, y + 8); doc.line(ML + 130, y + 8, ML + TW, y + 8);
     doc.line(ML + 65, y + 8, ML + 65, y + 20);
-
+    setFont('normal', 7.5); doc.text('(1) Kementerian/Jabatan/Agensi:', ML + 2, y + 13);
+    setFont('bold', 7.5); doc.text(document.getElementById('b2_jabatan').value, ML + 2, y + 18);
+    setFont('normal', 7.5); doc.text('(2) Bahagian/Cawangan/Unit:', ML + 67, y + 13);
+    setFont('bold', 7.5); doc.text(document.getElementById('b2_bahagian').value, ML + 67, y + 18);
     setFont('normal', 7.5);
-    doc.text('(1) Kementerian/Jabatan/Agensi:', ML + 2, y + 13);
-    setFont('bold', 7.5);
-    doc.text(document.getElementById('b2_jabatan').value, ML + 2, y + 18);
-
-    setFont('normal', 7.5);
-    doc.text('(2) Bahagian/Cawangan/Unit:', ML + 67, y + 13);
-    setFont('bold', 7.5);
-    doc.text(document.getElementById('b2_bahagian').value, ML + 67, y + 18);
-
-    setFont('normal', 7.5);
-    doc.text('Tarikh Terima:', ML + 132, y + 13);
-    doc.text('Jumlah Rekod:', ML + 132, y + 19);
-    doc.text('No. Penerimaan:', ML + 132, y + 25);
-
+    doc.text('Tarikh Terima:', ML + 132, y + 13); doc.text('Jumlah Rekod:', ML + 132, y + 19); doc.text('No. Penerimaan:', ML + 132, y + 25);
     doc.line(ML, y + 20, ML + 130, y + 20);
-
-    setFont('normal', 7.5);
-    doc.text('(3) Pewujud Rekod [Jika tidak sama dengan (1)]:', ML + 2, y + 25);
-    setFont('bold', 7.5);
-    doc.text(document.getElementById('b2_pewujud').value, ML + 2, y + 31);
-
+    setFont('normal', 7.5); doc.text('(3) Pewujud Rekod [Jika tidak sama dengan (1)]:', ML + 2, y + 25);
+    setFont('bold', 7.5); doc.text(document.getElementById('b2_pewujud').value, ML + 2, y + 31);
     doc.line(ML, y + 33, ML + 130, y + 33);
-    setFont('normal', 7.5);
-    doc.text('(4) Jadual Pelupusan Yang Diguna Pakai:', ML + 2, y + 38);
-    setFont('bold', 7.5);
-    doc.text(document.getElementById('b2_jadual').value, ML + 2, y + boxH1 - 2);
-
-    // ---- TABLE ----
+    setFont('normal', 7.5); doc.text('(4) Jadual Pelupusan Yang Diguna Pakai:', ML + 2, y + 38);
+    setFont('bold', 7.5); doc.text(document.getElementById('b2_jadual').value, ML + 2, y + boxH1 - 2);
     y += boxH1;
-    // Cols: Bil | Tajuk | Dari | Ke | Tempoh | Unit | Meter
-    //        10    58     14    14    28       24     18    (= 166 but we use 180)
-    //        12    60     16    16    28       24     24
-    const cols = [12, 60, 16, 16, 28, 24, 24]; // = 180
+    const cols = [12, 60, 16, 16, 28, 24, 24];
     const colX = [ML];
     cols.forEach((w, i) => colX.push(colX[i] + w));
-
-    const HDR_H1 = 10;
-    const HDR_H2 = 6;
-    const DATA_H = 10;
-
-    // Row 1 header
+    const HDR_H1 = 10, HDR_H2 = 6, DATA_H = 10;
     doc.rect(ML, y, TW, HDR_H1 + HDR_H2);
-
-    // Draw all vertical lines full height of both header rows
-    cols.forEach((_, i) => {
-        if (i > 0) doc.line(colX[i], y, colX[i], y + HDR_H1 + HDR_H2);
-    });
-
-    // Merge Bil, Tajuk, Tempoh, Unit, Meter (span both rows)
-    // Sub-cols for Tahun (col 2+3): draw horizontal separator only there
-    doc.line(colX[2], y + HDR_H1, colX[4], y + HDR_H1); // under "Tahun Diliputi"
-
+    cols.forEach((_, i) => { if (i > 0) doc.line(colX[i], y, colX[i], y + HDR_H1 + HDR_H2); });
+    doc.line(colX[2], y + HDR_H1, colX[4], y + HDR_H1);
     setFont('bold', 7);
-    // "Tahun Diliputi (7)" centered over col 2+3
     const tahunCX = colX[2] + (cols[2] + cols[3]) / 2;
     doc.text('Tahun Diliputi (7)', tahunCX, y + 5.5, { align: 'center' });
-
-    // Sub-header "Daripada" and "Kepada"
     setFont('normal', 6.5);
     doc.text('Daripada', colX[2] + cols[2] / 2, y + HDR_H1 + 4, { align: 'center' });
     doc.text('Kepada', colX[3] + cols[3] / 2, y + HDR_H1 + 4, { align: 'center' });
-
-    // Other headers — centered vertically in full double-row
     setFont('bold', 7);
     const fullHdrH = HDR_H1 + HDR_H2;
     const hdrItems = [
-        { i: 0, text: ['Bil.', '(5)'] },
-        { i: 1, text: ['Tajuk Siri Rekod', '(6)'] },
-        { i: 4, text: ['Tempoh', 'Pengekalan (8)'] },
-        { i: 5, text: ['Unit', 'Rekod (9)'] },
-        { i: 6, text: ['Meter', 'Panjang (10)'] }
+        { i: 0, text: ['Bil.','(5)'] }, { i: 1, text: ['Tajuk Siri Rekod','(6)'] },
+        { i: 4, text: ['Tempoh','Pengekalan (8)'] }, { i: 5, text: ['Unit','Rekod (9)'] }, { i: 6, text: ['Meter','Panjang (10)'] }
     ];
     hdrItems.forEach(h => {
         const cx = colX[h.i] + cols[h.i] / 2;
@@ -766,79 +744,256 @@ function downloadBorang2PDF() {
         const sy = y + fullHdrH / 2 - ((tl - 1) * 2.8) / 2 + 1;
         h.text.forEach((line, li) => doc.text(line, cx, sy + li * 2.8, { align: 'center' }));
     });
-
     y += fullHdrH;
-
-    // DATA ROWS
     const items2 = document.querySelectorAll('#b2_items-tbody tr');
     items2.forEach((tr, idx) => {
         doc.rect(ML, y, TW, DATA_H);
         cols.forEach((_, i) => { if (i > 0) doc.line(colX[i], y, colX[i], y + DATA_H); });
-
-        const vals = [
-            String(idx + 1),
-            tr.querySelector('.i2-tajuk')?.value || '',
-            tr.querySelector('.i2-dari')?.value || '',
-            tr.querySelector('.i2-ke')?.value || '',
-            tr.querySelector('.i2-tempoh')?.value || '',
-            tr.querySelector('.i2-unit')?.value || '',
-            tr.querySelector('.i2-meter')?.value || ''
-        ];
-
+        const vals = [String(idx+1), tr.querySelector('.i2-tajuk')?.value||'', tr.querySelector('.i2-dari')?.value||'', tr.querySelector('.i2-ke')?.value||'', tr.querySelector('.i2-tempoh')?.value||'', tr.querySelector('.i2-unit')?.value||'', tr.querySelector('.i2-meter')?.value||''];
         setFont('normal', 7.5);
         vals.forEach((val, i) => {
             const cx = i === 0 ? colX[i] + cols[i] / 2 : colX[i] + 1.5;
             const align = i === 0 ? 'center' : 'left';
-            const maxW = cols[i] - 3;
-            const lines = doc.splitTextToSize(val, maxW);
+            const lines = doc.splitTextToSize(val, cols[i] - 3);
             doc.text(lines[0], cx, y + 6, { align });
         });
-
         y += DATA_H;
     });
-
-    // Empty rows
     const emptyRows2 = Math.max(0, 8 - items2.length);
     for (let e = 0; e < emptyRows2; e++) {
         doc.rect(ML, y, TW, DATA_H);
         cols.forEach((_, i) => { if (i > 0) doc.line(colX[i], y, colX[i], y + DATA_H); });
         y += DATA_H;
     }
-
-    // ---- FOOTER ----
     y += 5;
-    const footerText = '(11) Mengikut Seksyen 25 dan 26, Akta Arkib Negara 2003 (Akta 629), saya mengemukakan permohonan ini bagi pelupusan rekod di atas:';
     setFont('normal', 7.5);
-    const footerLines = doc.splitTextToSize(footerText, TW);
-    doc.text(footerLines, ML, y);
-    y += footerLines.length * 3.5 + 3;
-
-    setFont('normal', 8);
-    doc.text('Nama Pegawai:', ML, y);
-    setFont('bold', 8);
-    doc.text(document.getElementById('b2_pegawai').value || '', ML + 35, y);
-    setFont('normal', 8);
-    doc.text('Tandatangan dan Meterai/Cap Jabatan:', ML + 95, y);
-
-    y += 7;
-    setFont('normal', 8);
-    doc.text('Jawatan:', ML, y);
-    setFont('bold', 8);
-    doc.text(document.getElementById('b2_jawatan').value || '', ML + 35, y);
-
-    y += 7;
-    setFont('normal', 8);
-    doc.text('Tarikh:', ML, y);
-    setFont('bold', 8);
-    doc.text(new Date().toLocaleDateString('ms-MY'), ML + 35, y);
-
-    setFont('normal', 8);
-    doc.text('Arkib 2/08', PW - MR, PH - 8, { align: 'right' });
-
+    const ftLines = doc.splitTextToSize('(11) Mengikut Seksyen 25 dan 26, Akta Arkib Negara 2003 (Akta 629), saya mengemukakan permohonan ini bagi pelupusan rekod di atas:', TW);
+    doc.text(ftLines, ML, y); y += ftLines.length * 3.5 + 3;
+    setFont('normal', 8); doc.text('Nama Pegawai:', ML, y); setFont('bold', 8); doc.text(document.getElementById('b2_pegawai').value||'', ML + 35, y);
+    setFont('normal', 8); doc.text('Tandatangan dan Meterai/Cap Jabatan:', ML + 95, y);
+    y += 7; setFont('normal', 8); doc.text('Jawatan:', ML, y); setFont('bold', 8); doc.text(document.getElementById('b2_jawatan').value||'', ML + 35, y);
+    y += 7; setFont('normal', 8); doc.text('Tarikh:', ML, y); setFont('bold', 8); doc.text(new Date().toLocaleDateString('ms-MY'), ML + 35, y);
+    setFont('normal', 8); doc.text('Arkib 2/08', PW - MR, PH - 8, { align: 'right' });
     doc.save('Borang_Arkib_2-08.pdf');
 }
 
-// ============ SURAT PDF (placeholder) ============
+// ============================================================
+//  BORANG 12/08 — Penentusahan Pemusnahan Rekod Awam
+// ============================================================
+function downloadBorang12PDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    const PW = 210, PH = 297;
+    const ML = 20, MR = 20;
+    const TW = PW - ML - MR; // 170mm
+    const CX = PW / 2;
+
+    const setFont = (style = 'normal', size = 9) => { doc.setFont('helvetica', style); doc.setFontSize(size); };
+    doc.setTextColor(0,0,0);
+
+    // ---- HEADER ----
+    setFont('normal', 9);
+    doc.text('[Peraturan 9(2)]', ML, 12);
+    setFont('bold', 11);
+    doc.text('Borang 12', CX, 18, { align: 'center' });
+    setFont('normal', 9);
+    doc.text('Arkib 12/08', PW - MR, 18, { align: 'right' });
+    setFont('bold', 11);
+    doc.text('PENENTUSAHAN PEMUSNAHAN REKOD AWAM', CX, 26, { align: 'center' });
+
+    // ---- BOX 1: BUTIR-BUTIR JABATAN ----
+    let y = 30;
+    const bH = 30;
+    doc.rect(ML, y, TW, bH);
+
+    // Header row
+    setFont('bold', 9);
+    doc.text('BUTIR-BUTIR JABATAN', CX, y + 6, { align: 'center' });
+    doc.line(ML, y + 9, ML + TW, y + 9);
+
+    // Two columns
+    doc.line(ML + TW / 2, y + 9, ML + TW / 2, y + bH);
+    setFont('normal', 8);
+    doc.text('(1) Kementerian/Jabatan/Agensi:', ML + 2, y + 15);
+    setFont('bold', 8);
+    const jabatan12 = document.getElementById('b12_jabatan').value;
+    doc.text(jabatan12, ML + 2, y + 21);
+
+    setFont('normal', 8);
+    doc.text('(2) Bahagian/Cawangan/Unit:', ML + TW / 2 + 2, y + 15);
+    setFont('bold', 8);
+    const bahagian12 = document.getElementById('b12_bahagian').value;
+    doc.text(bahagian12, ML + TW / 2 + 2, y + 21);
+
+    // ---- BOX 2: MAKLUMAT MENGENAI REKOD ----
+    y += bH;
+    const mkH = 82;
+    doc.rect(ML, y, TW, mkH);
+
+    // Header
+    setFont('bold', 9);
+    doc.text('MAKLUMAT MENGENAI REKOD', CX, y + 6, { align: 'center' });
+    doc.line(ML, y + 9, ML + TW, y + 9);
+
+    // (3) Surat Kebenaran
+    setFont('normal', 8);
+    doc.text('(3) Surat Kebenaran Pemusnahan:', ML + 2, y + 15);
+    doc.line(ML, y + 17, ML + TW, y + 17);
+
+    // Row: 3.1 No Rujukan | 3.2 Tarikh
+    const halfW = TW / 2;
+    doc.line(ML + halfW, y + 17, ML + halfW, y + 28);
+    setFont('normal', 8);
+    doc.text('3.1 No. Rujukan:', ML + 2, y + 23);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_no_rujukan').value || '...................................', ML + 30, y + 23);
+    setFont('normal', 8);
+    doc.text('3.2 Tarikh:', ML + halfW + 2, y + 23);
+    setFont('bold', 8);
+    const tarikhKeb = document.getElementById('b12_tarikh_kebenaran').value;
+    doc.text(tarikhKeb ? new Date(tarikhKeb).toLocaleDateString('ms-MY') : '...................................', ML + halfW + 22, y + 23);
+    doc.line(ML, y + 28, ML + TW, y + 28);
+
+    // (4) Perihal Rekod
+    setFont('normal', 8);
+    doc.text('(4) Perihal Rekod:', ML + 2, y + 34);
+    setFont('bold', 8);
+    const perihal = document.getElementById('b12_perihal').value;
+    const perihalLines = doc.splitTextToSize(perihal || '', TW - 4);
+    doc.text(perihalLines[0] || '', ML + 2, y + 40);
+    if (perihalLines[1]) doc.text(perihalLines[1], ML + 2, y + 45);
+    doc.line(ML, y + 48, ML + TW, y + 48);
+
+    // (5) Meter Panjang | (6) Peringkat Keselamatan
+    doc.line(ML + halfW, y + 48, ML + halfW, y + 59);
+    setFont('normal', 8);
+    doc.text('(5) Meter Panjang Rekod Yang Dimusnahkan:', ML + 2, y + 54);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_meter').value || '', ML + 2, y + 59.5);
+
+    setFont('normal', 8);
+    doc.text('(6) Peringkat Keselamatan:', ML + halfW + 2, y + 54);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_keselamatan').value || '', ML + halfW + 2, y + 59.5);
+    doc.line(ML, y + 62, ML + TW, y + 62);
+
+    // (7) Kaedah Pemusnahan
+    setFont('normal', 8);
+    doc.text('(7) Kaedah Pemusnahan :', ML + 2, y + 68);
+
+    // Radio checkboxes
+    const kaedahSelected = document.querySelector('input[name="b12_kaedah"]:checked')?.value || '';
+    const kaedahOptions = ['dibakar', 'dirincih', 'dikitar semula', 'dipadamkan', 'dijual'];
+    let kx = ML + 50;
+    kaedahOptions.forEach(k => {
+        // draw checkbox
+        doc.rect(kx, y + 64.5, 4, 4);
+        if (kaedahSelected === k) {
+            setFont('bold', 10);
+            doc.text('x', kx + 0.5, y + 68);
+        }
+        setFont('normal', 7.5);
+        doc.text(k.charAt(0).toUpperCase() + k.slice(1), kx + 5.5, y + 68);
+        kx += 26;
+    });
+
+    // No Resit
+    setFont('normal', 8);
+    doc.text('No. Resit (Jika Dijual):', ML + 2, y + 75);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_no_resit').value || '..............................', ML + 45, y + 75);
+    doc.line(ML, y + 78, ML + TW, y + 78);
+
+    // (8) Tarikh Pemusnahan | (9) Tempat
+    doc.line(ML + halfW, y + 78, ML + halfW, y + mkH);
+    setFont('normal', 8);
+    doc.text('(8) Tarikh Pemusnahan:', ML + 2, y + 84);
+    setFont('bold', 8);
+    const tarikhMusnah = document.getElementById('b12_tarikh_musnah').value;
+    doc.text(tarikhMusnah ? new Date(tarikhMusnah).toLocaleDateString('ms-MY') : '', ML + 2, y + 90);
+
+    setFont('normal', 8);
+    doc.text('(9) Tempat Pemusnahan:', ML + halfW + 2, y + 84);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_tempat').value || '', ML + halfW + 2, y + 90);
+
+    // ---- BOX 3: PEGAWAI MELAKSANA ----
+    y += mkH;
+    const pgH = 52;
+    doc.rect(ML, y, TW, pgH);
+    setFont('bold', 9);
+    doc.text('PEGAWAI YANG MELAKSANAKAN PEMUSNAHAN', CX, y + 6, { align: 'center' });
+    doc.line(ML, y + 9, ML + TW, y + 9);
+
+    // (10) Pegawai pelaksana
+    setFont('normal', 8);
+    doc.text('(10) Nama Pegawai:', ML + 2, y + 15);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_nama_pelaksana').value || '', ML + 35, y + 15);
+    doc.text('Tandatangan:', ML + TW / 2 + 2, y + 15);
+
+    setFont('normal', 8);
+    doc.text('Jawatan:', ML + 2, y + 23);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_jawatan_pelaksana').value || '', ML + 20, y + 23);
+
+    doc.line(ML, y + 27, ML + TW, y + 27);
+
+    // (11) Saksi
+    setFont('normal', 8);
+    doc.text('(11) Nama Saksi:', ML + 2, y + 33);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_nama_saksi').value || '', ML + 30, y + 33);
+    doc.text('Tandatangan:', ML + TW / 2 + 2, y + 33);
+
+    setFont('normal', 8);
+    doc.text('Jawatan:', ML + 2, y + 41);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_jawatan_saksi').value || '', ML + 20, y + 41);
+
+    // ---- BOX 4: PENENTUSAHAN ----
+    y += pgH;
+    const ptH = 48;
+    doc.rect(ML, y, TW, ptH);
+    setFont('bold', 9);
+    doc.text('PENENTUSAHAN', CX, y + 6, { align: 'center' });
+    doc.line(ML, y + 9, ML + TW, y + 9);
+
+    setFont('normal', 7.5);
+    const penText = '(12) Saya mengesahkan bahawa rekod di atas telah dimusnahkan dengan sewajarnya mengikut Seksyen 25 dan 26, Akta Arkib Negara 2003 [Akta 629]:';
+    const penLines = doc.splitTextToSize(penText, TW - 4);
+    doc.text(penLines, ML + 2, y + 15);
+
+    const ptY = y + 15 + penLines.length * 3.5 + 5;
+    // Left: Nama + Jawatan
+    setFont('normal', 8);
+    doc.text('Nama Pegawai:', ML + 2, ptY);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_nama_pengesah').value || '', ML + 30, ptY);
+
+    setFont('normal', 8);
+    doc.text('Jawatan:', ML + 2, ptY + 7);
+    setFont('bold', 8);
+    doc.text(document.getElementById('b12_jawatan_pengesah').value || '', ML + 20, ptY + 7);
+
+    setFont('normal', 8);
+    doc.text('Tarikh:', ML + 2, ptY + 14);
+    setFont('bold', 8);
+    const tarikhPengesahan = document.getElementById('b12_tarikh_pengesahan').value;
+    doc.text(tarikhPengesahan ? new Date(tarikhPengesahan).toLocaleDateString('ms-MY') : '', ML + 18, ptY + 14);
+
+    // Right: Tandatangan box
+    doc.text('Tandatangan dan Meterai/Cap Jabatan:', ML + TW / 2 + 2, ptY);
+
+    // Footer
+    setFont('normal', 8);
+    doc.text('Arkib 12/08', PW - MR, PH - 8, { align: 'right' });
+
+    doc.save('Borang_Arkib_12-08.pdf');
+}
+
+// ============ SURAT PDF ============
 async function downloadSuratPDF() {
     alert('Fungsi Jana Surat PDF akan ditambah dalam versi akan datang.');
 }

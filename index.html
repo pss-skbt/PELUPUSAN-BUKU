@@ -183,18 +183,38 @@
             <!-- Borang 9/08 -->
             <div id="view-borang" class="hidden">
                 <div class="max-w-6xl mx-auto space-y-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div>
-                            <h3 class="text-indigo-900 font-bold text-lg">Import Data Automatik</h3>
-                            <p class="text-gray-500 text-xs">Muat naik CSV atau tambah baris manual.</p>
+
+                    <!-- ====== BAHAGIAN IMPORT DATA (DIKEMASKINI) ====== -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="text-indigo-900 font-bold text-lg">Import Data Automatik</h3>
+                                <p class="text-gray-500 text-xs">Tampal pautan Google Sheets / CSV atau muat naik fail CSV.</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-bold text-sm cursor-pointer">
+                                    <i class="fas fa-file-upload"></i> Muat Naik CSV
+                                    <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="handleCSVUpload(event,'borang')">
+                                </label>
+                            </div>
                         </div>
-                        <div class="flex flex-wrap gap-2">
-                            <label class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-bold text-sm cursor-pointer">
-                                <i class="fas fa-file-upload"></i> Muat Naik CSV
-                                <input type="file" id="csv-upload" accept=".csv" class="hidden" onchange="handleCSVUpload(event,'borang')">
-                            </label>
+                        <!-- Kotak Input URL -->
+                        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+                            <div class="flex-1">
+                                <label class="text-[10px] font-bold text-indigo-500 uppercase block mb-1"><i class="fas fa-link mr-1"></i> Pautan Google Sheets / CSV</label>
+                                <input type="url" id="url-borang" placeholder="Tampal pautan Google Sheets atau URL CSV di sini..." class="w-full p-3 bg-white border border-indigo-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-400 outline-none">
+                            </div>
+                            <button onclick="fetchFromURL('borang')" class="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-sm transition-all whitespace-nowrap mt-auto">
+                                <i class="fas fa-cloud-download-alt"></i> Tarik Data
+                            </button>
                         </div>
+                        <p class="text-[11px] text-gray-400 mt-2 px-1">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Untuk Google Sheets: Fail &rarr; Kongsi &rarr; Sesiapa yang mempunyai pautan &rarr; salin pautan. Sistem akan tukar ke format CSV secara automatik.
+                        </p>
                     </div>
+                    <!-- ====== AKHIR BAHAGIAN IMPORT ====== -->
+
                     <div class="bg-white p-8 rounded-xl shadow-sm border">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-xl font-bold text-indigo-900">Borang 9 (Arkib 9/08) — Rekod Terbitan & Bahan Bercetak</h3>
@@ -238,18 +258,38 @@
             <!-- Borang 2/08 -->
             <div id="view-borang2" class="hidden">
                 <div class="max-w-6xl mx-auto space-y-6">
-                    <div class="bg-white p-6 rounded-xl shadow-sm border flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div>
-                            <h3 class="text-indigo-900 font-bold text-lg">Import Data Automatik</h3>
-                            <p class="text-gray-500 text-xs">Muat naik CSV atau tambah baris manual.</p>
+
+                    <!-- ====== BAHAGIAN IMPORT DATA (DIKEMASKINI) ====== -->
+                    <div class="bg-white p-6 rounded-xl shadow-sm border">
+                        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-4">
+                            <div>
+                                <h3 class="text-indigo-900 font-bold text-lg">Import Data Automatik</h3>
+                                <p class="text-gray-500 text-xs">Tampal pautan Google Sheets / CSV atau muat naik fail CSV.</p>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                <label class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-bold text-sm cursor-pointer">
+                                    <i class="fas fa-file-upload"></i> Muat Naik CSV
+                                    <input type="file" id="csv-upload-2" accept=".csv" class="hidden" onchange="handleCSVUpload(event,'borang2')">
+                                </label>
+                            </div>
                         </div>
-                        <div class="flex flex-wrap gap-2">
-                            <label class="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-bold text-sm cursor-pointer">
-                                <i class="fas fa-file-upload"></i> Muat Naik CSV
-                                <input type="file" id="csv-upload-2" accept=".csv" class="hidden" onchange="handleCSVUpload(event,'borang2')">
-                            </label>
+                        <!-- Kotak Input URL -->
+                        <div class="flex flex-col sm:flex-row gap-3 items-stretch sm:items-center bg-indigo-50 border border-indigo-200 rounded-xl p-4">
+                            <div class="flex-1">
+                                <label class="text-[10px] font-bold text-indigo-500 uppercase block mb-1"><i class="fas fa-link mr-1"></i> Pautan Google Sheets / CSV</label>
+                                <input type="url" id="url-borang2" placeholder="Tampal pautan Google Sheets atau URL CSV di sini..." class="w-full p-3 bg-white border border-indigo-200 rounded-lg text-sm focus:ring-2 focus:ring-indigo-400 outline-none">
+                            </div>
+                            <button onclick="fetchFromURL('borang2')" class="flex items-center justify-center gap-2 px-6 py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg text-sm transition-all whitespace-nowrap mt-auto">
+                                <i class="fas fa-cloud-download-alt"></i> Tarik Data
+                            </button>
                         </div>
+                        <p class="text-[11px] text-gray-400 mt-2 px-1">
+                            <i class="fas fa-info-circle mr-1"></i>
+                            Untuk Google Sheets: Fail &rarr; Kongsi &rarr; Sesiapa yang mempunyai pautan &rarr; salin pautan. Sistem akan tukar ke format CSV secara automatik.
+                        </p>
                     </div>
+                    <!-- ====== AKHIR BAHAGIAN IMPORT ====== -->
+
                     <div class="bg-white p-8 rounded-xl shadow-sm border">
                         <div class="flex justify-between items-center mb-6">
                             <h3 class="text-xl font-bold text-indigo-900">Borang 2 (Arkib 2/08) — Rekod Awam Am</h3>
@@ -517,6 +557,162 @@ function previewLogo(e) {
 function removeLogo() { schoolLogoBase64 = null; localStorage.removeItem('pss_school_logo'); document.getElementById('logo-preview-container').innerHTML = `<span class="text-gray-400 text-[10px] text-center px-2">Tiada Logo Sekolah</span>`; }
 function updateLogoPreview(b) { document.getElementById('logo-preview-container').innerHTML = `<img src="${b}">`; }
 
+// ============ FETCH FROM URL (BAHARU) ============
+async function fetchFromURL(type) {
+    const inputId = type === 'borang' ? 'url-borang' : 'url-borang2';
+    let url = document.getElementById(inputId).value.trim();
+
+    if (!url) {
+        alert('Sila masukkan pautan Google Sheets atau URL CSV terlebih dahulu.');
+        return;
+    }
+
+    // Tukar pautan Google Sheets biasa kepada format CSV export
+    // Format: https://docs.google.com/spreadsheets/d/SHEET_ID/edit#gid=0
+    // → https://docs.google.com/spreadsheets/d/SHEET_ID/export?format=csv&gid=0
+    if (url.includes('docs.google.com/spreadsheets')) {
+        // Ekstrak sheet ID
+        const matchId = url.match(/\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/);
+        if (!matchId) {
+            alert('Pautan Google Sheets tidak sah. Pastikan anda menyalin pautan yang betul.');
+            return;
+        }
+        const sheetId = matchId[1];
+
+        // Ekstrak gid (tab tertentu) jika ada
+        const matchGid = url.match(/[#&?]gid=(\d+)/);
+        const gid = matchGid ? matchGid[1] : '0';
+
+        url = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv&gid=${gid}`;
+    }
+
+    // Tunjukkan status loading pada butang
+    const btn = document.querySelector(`button[onclick="fetchFromURL('${type}')"]`);
+    const originalHTML = btn.innerHTML;
+    btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Memuat...`;
+    btn.disabled = true;
+
+    try {
+        const response = await fetch(url);
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const text = await response.text();
+
+        // Parse CSV dan tambah ke jadual
+        const lines = text.split('\n');
+        if (lines.length < 2) {
+            alert('Tiada data ditemui dalam fail. Pastikan spreadsheet mengandungi data.');
+            return;
+        }
+
+        // Keluarkan baris sedia ada sebelum tambah data baru
+        const tbodyId = type === 'borang' ? 'b_items-tbody' : 'b2_items-tbody';
+        document.getElementById(tbodyId).innerHTML = '';
+
+        // Gunakan semula fungsi handleCSVUpload logic
+        const headerRaw = lines[0] || '';
+        const headers = headerRaw.split(',').map(x => x.trim().toUpperCase());
+
+        let rowsAdded = 0;
+        lines.forEach((l, i) => {
+            if (i === 0 || !l.trim()) return;
+            const c = [];
+            let cur = '', inQuote = false;
+            for (let ch of l) {
+                if (ch === '"') { inQuote = !inQuote; }
+                else if (ch === ',' && !inQuote) { c.push(cur.trim()); cur = ''; }
+                else { cur += ch; }
+            }
+            c.push(cur.trim());
+
+            if (type === 'borang') {
+                const hasBil = headers[0] === 'BIL' || headers[0] === 'NO' || headers[0] === 'NO.' || /^\d+$/.test(c[0]);
+                const offset = hasBil ? 1 : 0;
+                addItem('borang', {
+                    tajuk:    c[offset]     || '',
+                    tahun:    c[offset + 1] || '',
+                    meter:    c[offset + 2] || '0.01',
+                    cadangan: c[offset + 3] || 'MUSNAH',
+                    catatan:  c[offset + 4] || 'ROSAK/UZUR'
+                });
+            } else {
+                const hasBil = headers[0] === 'BIL' || headers[0] === 'NO' || headers[0] === 'NO.' || /^\d+$/.test(c[0]);
+                const offset = hasBil ? 1 : 0;
+                addItem('borang2', {
+                    tajuk:  c[offset]     || '',
+                    dari:   c[offset + 1] || '',
+                    ke:     c[offset + 2] || '',
+                    tempoh: c[offset + 3] || 'Serta-merta',
+                    unit:   c[offset + 4] || '1 naskah',
+                    meter:  c[offset + 5] || '0.01'
+                });
+            }
+            rowsAdded++;
+        });
+
+        alert(`Berjaya! ${rowsAdded} baris data telah dimuatkan ke dalam borang.`);
+
+    } catch (err) {
+        // Cuba semula dengan CORS proxy jika fetch terus gagal
+        try {
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(url)}`;
+            const response2 = await fetch(proxyUrl);
+            if (!response2.ok) throw new Error(`HTTP ${response2.status}`);
+            const text2 = await response2.text();
+
+            const lines2 = text2.split('\n');
+            const tbodyId = type === 'borang' ? 'b_items-tbody' : 'b2_items-tbody';
+            document.getElementById(tbodyId).innerHTML = '';
+            const headerRaw2 = lines2[0] || '';
+            const headers2 = headerRaw2.split(',').map(x => x.trim().toUpperCase());
+
+            let rowsAdded2 = 0;
+            lines2.forEach((l, i) => {
+                if (i === 0 || !l.trim()) return;
+                const c = [];
+                let cur = '', inQuote = false;
+                for (let ch of l) {
+                    if (ch === '"') { inQuote = !inQuote; }
+                    else if (ch === ',' && !inQuote) { c.push(cur.trim()); cur = ''; }
+                    else { cur += ch; }
+                }
+                c.push(cur.trim());
+
+                if (type === 'borang') {
+                    const hasBil = headers2[0] === 'BIL' || headers2[0] === 'NO' || headers2[0] === 'NO.' || /^\d+$/.test(c[0]);
+                    const offset = hasBil ? 1 : 0;
+                    addItem('borang', {
+                        tajuk:    c[offset]     || '',
+                        tahun:    c[offset + 1] || '',
+                        meter:    c[offset + 2] || '0.01',
+                        cadangan: c[offset + 3] || 'MUSNAH',
+                        catatan:  c[offset + 4] || 'ROSAK/UZUR'
+                    });
+                } else {
+                    const hasBil = headers2[0] === 'BIL' || headers2[0] === 'NO' || headers2[0] === 'NO.' || /^\d+$/.test(c[0]);
+                    const offset = hasBil ? 1 : 0;
+                    addItem('borang2', {
+                        tajuk:  c[offset]     || '',
+                        dari:   c[offset + 1] || '',
+                        ke:     c[offset + 2] || '',
+                        tempoh: c[offset + 3] || 'Serta-merta',
+                        unit:   c[offset + 4] || '1 naskah',
+                        meter:  c[offset + 5] || '0.01'
+                    });
+                }
+                rowsAdded2++;
+            });
+
+            alert(`Berjaya! ${rowsAdded2} baris data telah dimuatkan ke dalam borang.`);
+
+        } catch (err2) {
+            alert(`Gagal memuat data.\n\nPastikan:\n1. Google Sheets dikongsi sebagai "Sesiapa yang mempunyai pautan"\n2. Pautan disalin dengan betul\n\nRalat: ${err2.message}`);
+        }
+    } finally {
+        btn.innerHTML = originalHTML;
+        btn.disabled = false;
+    }
+}
+
 // ============ TABLE ROWS ============
 function addItem(type, data = {}) {
     if (type === 'borang') {
@@ -563,14 +759,11 @@ function handleCSVUpload(e, type) {
     const reader = new FileReader();
     reader.onload = (event) => {
         const lines = event.target.result.split('\n');
-        // Baca header baris pertama untuk detect format automatik
         const headerRaw = lines[0] || '';
         const headers = headerRaw.split(',').map(x => x.trim().toUpperCase());
 
         lines.forEach((l, i) => {
             if (i === 0 || !l.trim()) return;
-
-            // Split dengan sokongan nilai yang ada koma dalam tanda petik
             const c = [];
             let cur = '', inQuote = false;
             for (let ch of l) {
@@ -581,8 +774,6 @@ function handleCSVUpload(e, type) {
             c.push(cur.trim());
 
             if (type === 'borang') {
-                // Format Google Sheets: BIL(A), TAJUK REKOD/BAHAN(B), TAHUN(C), METER/JUMLAH(D), CADANGAN TINDAKAN(E)
-                // Detect sama ada ada kolum BIL di hadapan atau tidak
                 const hasBil = headers[0] === 'BIL' || headers[0] === 'NO' || headers[0] === 'NO.' || /^\d+$/.test(c[0]);
                 const offset = hasBil ? 1 : 0;
                 addItem('borang', {
@@ -593,7 +784,6 @@ function handleCSVUpload(e, type) {
                     catatan:  c[offset + 4] || 'ROSAK/UZUR'
                 });
             } else {
-                // Format Borang 2: BIL(A), TAJUK(B), DARI(C), KE(D), TEMPOH(E), UNIT(F), METER(G)
                 const hasBil = headers[0] === 'BIL' || headers[0] === 'NO' || headers[0] === 'NO.' || /^\d+$/.test(c[0]);
                 const offset = hasBil ? 1 : 0;
                 addItem('borang2', {
@@ -844,13 +1034,12 @@ function downloadBorang12PDF() {
 
     const PW = 210, PH = 297;
     const ML = 20, MR = 20;
-    const TW = PW - ML - MR; // 170mm
+    const TW = PW - ML - MR;
     const CX = PW / 2;
 
     const setFont = (style = 'normal', size = 9) => { doc.setFont('helvetica', style); doc.setFontSize(size); };
     doc.setTextColor(0,0,0);
 
-    // ---- HEADER ----
     setFont('normal', 9);
     doc.text('[Peraturan 9(2)]', ML, 12);
     setFont('bold', 11);
@@ -860,17 +1049,14 @@ function downloadBorang12PDF() {
     setFont('bold', 11);
     doc.text('PENENTUSAHAN PEMUSNAHAN REKOD AWAM', CX, 26, { align: 'center' });
 
-    // ---- BOX 1: BUTIR-BUTIR JABATAN ----
     let y = 30;
     const bH = 30;
     doc.rect(ML, y, TW, bH);
 
-    // Header row
     setFont('bold', 9);
     doc.text('BUTIR-BUTIR JABATAN', CX, y + 6, { align: 'center' });
     doc.line(ML, y + 9, ML + TW, y + 9);
 
-    // Two columns
     doc.line(ML + TW / 2, y + 9, ML + TW / 2, y + bH);
     setFont('normal', 8);
     doc.text('(1) Kementerian/Jabatan/Agensi:', ML + 2, y + 15);
@@ -884,22 +1070,18 @@ function downloadBorang12PDF() {
     const bahagian12 = document.getElementById('b12_bahagian').value;
     doc.text(bahagian12, ML + TW / 2 + 2, y + 21);
 
-    // ---- BOX 2: MAKLUMAT MENGENAI REKOD ----
     y += bH;
     const mkH = 82;
     doc.rect(ML, y, TW, mkH);
 
-    // Header
     setFont('bold', 9);
     doc.text('MAKLUMAT MENGENAI REKOD', CX, y + 6, { align: 'center' });
     doc.line(ML, y + 9, ML + TW, y + 9);
 
-    // (3) Surat Kebenaran
     setFont('normal', 8);
     doc.text('(3) Surat Kebenaran Pemusnahan:', ML + 2, y + 15);
     doc.line(ML, y + 17, ML + TW, y + 17);
 
-    // Row: 3.1 No Rujukan | 3.2 Tarikh
     const halfW = TW / 2;
     doc.line(ML + halfW, y + 17, ML + halfW, y + 28);
     setFont('normal', 8);
@@ -913,7 +1095,6 @@ function downloadBorang12PDF() {
     doc.text(tarikhKeb ? new Date(tarikhKeb).toLocaleDateString('ms-MY') : '...................................', ML + halfW + 22, y + 23);
     doc.line(ML, y + 28, ML + TW, y + 28);
 
-    // (4) Perihal Rekod
     setFont('normal', 8);
     doc.text('(4) Perihal Rekod:', ML + 2, y + 34);
     setFont('bold', 8);
@@ -923,7 +1104,6 @@ function downloadBorang12PDF() {
     if (perihalLines[1]) doc.text(perihalLines[1], ML + 2, y + 45);
     doc.line(ML, y + 48, ML + TW, y + 48);
 
-    // (5) Meter Panjang | (6) Peringkat Keselamatan
     doc.line(ML + halfW, y + 48, ML + halfW, y + 59);
     setFont('normal', 8);
     doc.text('(5) Meter Panjang Rekod Yang Dimusnahkan:', ML + 2, y + 54);
@@ -936,16 +1116,13 @@ function downloadBorang12PDF() {
     doc.text(document.getElementById('b12_keselamatan').value || '', ML + halfW + 2, y + 59.5);
     doc.line(ML, y + 62, ML + TW, y + 62);
 
-    // (7) Kaedah Pemusnahan
     setFont('normal', 8);
     doc.text('(7) Kaedah Pemusnahan :', ML + 2, y + 68);
 
-    // Radio checkboxes
     const kaedahSelected = document.querySelector('input[name="b12_kaedah"]:checked')?.value || '';
     const kaedahOptions = ['dibakar', 'dirincih', 'dikitar semula', 'dipadamkan', 'dijual'];
     let kx = ML + 50;
     kaedahOptions.forEach(k => {
-        // draw checkbox
         doc.rect(kx, y + 64.5, 4, 4);
         if (kaedahSelected === k) {
             setFont('bold', 10);
@@ -956,14 +1133,12 @@ function downloadBorang12PDF() {
         kx += 26;
     });
 
-    // No Resit
     setFont('normal', 8);
     doc.text('No. Resit (Jika Dijual):', ML + 2, y + 75);
     setFont('bold', 8);
     doc.text(document.getElementById('b12_no_resit').value || '..............................', ML + 45, y + 75);
     doc.line(ML, y + 78, ML + TW, y + 78);
 
-    // (8) Tarikh Pemusnahan | (9) Tempat
     doc.line(ML + halfW, y + 78, ML + halfW, y + mkH);
     setFont('normal', 8);
     doc.text('(8) Tarikh Pemusnahan:', ML + 2, y + 84);
@@ -976,7 +1151,6 @@ function downloadBorang12PDF() {
     setFont('bold', 8);
     doc.text(document.getElementById('b12_tempat').value || '', ML + halfW + 2, y + 90);
 
-    // ---- BOX 3: PEGAWAI MELAKSANA ----
     y += mkH;
     const pgH = 52;
     doc.rect(ML, y, TW, pgH);
@@ -984,7 +1158,6 @@ function downloadBorang12PDF() {
     doc.text('PEGAWAI YANG MELAKSANAKAN PEMUSNAHAN', CX, y + 6, { align: 'center' });
     doc.line(ML, y + 9, ML + TW, y + 9);
 
-    // (10) Pegawai pelaksana
     setFont('normal', 8);
     doc.text('(10) Nama Pegawai:', ML + 2, y + 15);
     setFont('bold', 8);
@@ -998,7 +1171,6 @@ function downloadBorang12PDF() {
 
     doc.line(ML, y + 27, ML + TW, y + 27);
 
-    // (11) Saksi
     setFont('normal', 8);
     doc.text('(11) Nama Saksi:', ML + 2, y + 33);
     setFont('bold', 8);
@@ -1010,7 +1182,6 @@ function downloadBorang12PDF() {
     setFont('bold', 8);
     doc.text(document.getElementById('b12_jawatan_saksi').value || '', ML + 20, y + 41);
 
-    // ---- BOX 4: PENENTUSAHAN ----
     y += pgH;
     const ptH = 48;
     doc.rect(ML, y, TW, ptH);
@@ -1024,7 +1195,6 @@ function downloadBorang12PDF() {
     doc.text(penLines, ML + 2, y + 15);
 
     const ptY = y + 15 + penLines.length * 3.5 + 5;
-    // Left: Nama + Jawatan
     setFont('normal', 8);
     doc.text('Nama Pegawai:', ML + 2, ptY);
     setFont('bold', 8);
@@ -1041,10 +1211,8 @@ function downloadBorang12PDF() {
     const tarikhPengesahan = document.getElementById('b12_tarikh_pengesahan').value;
     doc.text(tarikhPengesahan ? new Date(tarikhPengesahan).toLocaleDateString('ms-MY') : '', ML + 18, ptY + 14);
 
-    // Right: Tandatangan box
     doc.text('Tandatangan dan Meterai/Cap Jabatan:', ML + TW / 2 + 2, ptY);
 
-    // Footer
     setFont('normal', 8);
     doc.text('Arkib 12/08', PW - MR, PH - 8, { align: 'right' });
 
@@ -1060,13 +1228,12 @@ async function downloadSuratPDF() {
 
     const PW = 210, PH = 297;
     const ML = 20, MR = 20;
-    const TW = PW - ML - MR; // 170mm
-    const RIGHT = PW - MR;   // right margin x
+    const TW = PW - ML - MR;
+    const RIGHT = PW - MR;
 
     const setFont = (style = 'normal', size = 10) => { doc.setFont('helvetica', style); doc.setFontSize(size); };
     doc.setTextColor(0, 0, 0);
 
-    // ---- BAHAGIAN 1: LOGO + NAMA & ALAMAT SEKOLAH (KIRI) ----
     const namaSekolah = document.getElementById('h_nama_sekolah').value || 'SEKOLAH KEBANGSAAN BUKIT TONGKAT';
     const alamatSekolah = document.getElementById('h_alamat_sekolah').value || '';
     const logoData = schoolLogoBase64;
@@ -1074,7 +1241,7 @@ async function downloadSuratPDF() {
     let headerTopY = 14;
     const logoSize = 24;
     const logoX = ML;
-    const textX = ML + logoSize + 5; // teks nama sekolah mula selepas logo
+    const textX = ML + logoSize + 5;
     const textMaxW = TW - logoSize - 5;
 
     if (logoData) {
@@ -1084,17 +1251,14 @@ async function downloadSuratPDF() {
         } catch(e) {}
     }
 
-    // Nama sekolah (bold, atas)
     setFont('bold', 12);
     const namaLines = doc.splitTextToSize(namaSekolah, textMaxW);
     doc.text(namaLines, textX, headerTopY + 7);
 
-    // Alamat (normal, bawah nama)
     setFont('normal', 8.5);
     const alamatLines = doc.splitTextToSize(alamatSekolah, textMaxW);
     doc.text(alamatLines, textX, headerTopY + 7 + namaLines.length * 5.5);
 
-    // Garis bawah kepala surat
     const lineY = headerTopY + logoSize + 5;
     doc.setLineWidth(0.8);
     doc.line(ML, lineY, ML + TW, lineY);
@@ -1102,7 +1266,6 @@ async function downloadSuratPDF() {
     doc.line(ML, lineY + 1.5, ML + TW, lineY + 1.5);
     doc.setLineWidth(0.2);
 
-    // ---- BAHAGIAN 2: NO. RUJUKAN & TARIKH (KANAN) ----
     const noRujukan = document.getElementById('s_no_rujukan').value || '';
     const tarikhSurat = document.getElementById('s_tarikh_surat').value || '';
     const tarikhFormatted = tarikhSurat
@@ -1111,11 +1274,9 @@ async function downloadSuratPDF() {
 
     let y = lineY + 12;
     setFont('normal', 10);
-    // Label kiri, nilai rata kanan
     const labelRujukan = 'Rujukan Kami  :';
     const labelTarikh  = 'Tarikh             :';
-    // Print right-aligned block: label flush right at midpoint, value after
-    const colLabelX = PW - MR - 100; // start of right-side block
+    const colLabelX = PW - MR - 100;
     doc.text(labelRujukan, colLabelX, y);
     setFont('bold', 10);
     doc.text(noRujukan, colLabelX + doc.getTextWidth(labelRujukan) + 2, y);
@@ -1125,15 +1286,13 @@ async function downloadSuratPDF() {
     setFont('bold', 10);
     doc.text(tarikhFormatted, colLabelX + doc.getTextWidth(labelTarikh) + 2, y);
 
-    // ---- BAHAGIAN 3: ALAMAT PENERIMA (KIRI) ----
-    // Alamat penerima bermula 2 baris di bawah tarikh (y sudah ke bawah selepas tarikh)
     const namaPenerima    = document.getElementById('s_nama_penerima').value || '';
     const jabatanPenerima = document.getElementById('s_jabatan_penerima').value || '';
     const alamatPenerima  = document.getElementById('s_alamat_penerima').value || '';
 
     setFont('normal', 10);
-    const leftColW = TW / 2 - 5; // max lebar kolum kiri
-    let py = y + 12; // 2 baris (12mm) di bawah tarikh
+    const leftColW = TW / 2 - 5;
+    let py = y + 12;
     if (namaPenerima) {
         doc.text(namaPenerima, ML, py);
         py += 6;
@@ -1149,10 +1308,8 @@ async function downloadSuratPDF() {
         py += aLines.length * 5.5;
     }
 
-    // y lanjut selepas blok alamat penerima
     y = py + 8;
 
-    // ---- BAHAGIAN 4: TAJUK SURAT (BOLD UNDERLINE, TENGAH) ----
     setFont('bold', 10);
     const tajukSurat = 'PERMOHONAN PELUPUSAN REKOD DAN BAHAN BERCETAK DI PUSAT SUMBER SEKOLAH (PSS)';
     const CX = PW / 2;
@@ -1165,7 +1322,6 @@ async function downloadSuratPDF() {
     });
     y += 5;
 
-    // ---- BAHAGIAN 5: PERENGGAN ----
     setFont('normal', 10);
     const perengganEls = document.querySelectorAll('.s-perenggan');
     perengganEls.forEach(el => {
@@ -1180,7 +1336,6 @@ async function downloadSuratPDF() {
 
     y += 5;
 
-    // ---- BAHAGIAN 6: PENUTUP & TANDATANGAN ----
     const sekian       = document.getElementById('s_sekian').value || 'Sekian, terima kasih.';
     const madani       = document.getElementById('s_madani').value || 'MALAYSIA MADANI';
     const khidmat      = document.getElementById('s_khidmat').value || 'BERKHIDMAT UNTUK NEGARA';
@@ -1197,7 +1352,7 @@ async function downloadSuratPDF() {
     doc.text(madani, ML, y); y += 5;
     doc.text(khidmat, ML, y); y += 10;
     setFont('normal', 10);
-    doc.text(amanah, ML, y); y += 24; // ruang tandatangan
+    doc.text(amanah, ML, y); y += 24;
 
     setFont('bold', 10);
     doc.text(namaGB, ML, y); y += 6;

@@ -122,14 +122,35 @@
                     </div>
                     <div class="bg-white p-8 rounded-xl shadow-sm border">
                         <h3 class="text-lg font-bold mb-6 border-b pb-2 text-indigo-900 flex items-center"><i class="fas fa-edit mr-2 text-indigo-600"></i> Kandungan Surat Iringan</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+                        <!-- No. Rujukan + Tarikh (kanan dalam PDF) -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
                             <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100">
-                                <label class="text-xs font-bold text-indigo-400 uppercase mb-2 block">No. Rujukan Fail</label>
+                                <label class="text-xs font-bold text-indigo-400 uppercase mb-2 block">No. Rujukan Kami</label>
                                 <input type="text" id="s_no_rujukan" value="SKBT/PSS/2024/01" class="w-full p-3 bg-white border border-indigo-200 rounded-lg font-medium">
                             </div>
                             <div class="bg-indigo-50/50 p-4 rounded-lg border border-indigo-100">
                                 <label class="text-xs font-bold text-indigo-400 uppercase mb-2 block">Tarikh Surat</label>
                                 <input type="date" id="s_tarikh_surat" class="w-full p-3 bg-white border border-indigo-200 rounded-lg">
+                            </div>
+                        </div>
+
+                        <!-- Maklumat Penerima (kiri dalam PDF) -->
+                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-200 mb-8">
+                            <h4 class="text-xs font-bold text-gray-500 uppercase mb-4 tracking-wider flex items-center gap-2"><i class="fas fa-user-tie text-gray-400"></i> Maklumat Penerima Surat</h4>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Nama / Jawatan Penerima</label>
+                                    <input type="text" id="s_nama_penerima" value="Pengarah Pendidikan Negeri Johor" class="w-full p-3 bg-white border rounded-lg text-sm">
+                                </div>
+                                <div>
+                                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Jabatan / Agensi Penerima</label>
+                                    <input type="text" id="s_jabatan_penerima" value="Jabatan Pendidikan Negeri Johor" class="w-full p-3 bg-white border rounded-lg text-sm">
+                                </div>
+                                <div class="md:col-span-2">
+                                    <label class="text-xs font-bold text-gray-500 uppercase mb-1 block">Alamat Penerima</label>
+                                    <textarea id="s_alamat_penerima" rows="3" class="w-full p-3 bg-white border rounded-lg text-sm resize-none" placeholder="Alamat penuh penerima...">Aras 5, Kota Iskandar, Nusajaya, 79576 Iskandar Puteri, Johor.</textarea>
+                                </div>
                             </div>
                         </div>
                         <div class="space-y-6 mb-10">
@@ -542,11 +563,48 @@ function handleCSVUpload(e, type) {
     const reader = new FileReader();
     reader.onload = (event) => {
         const lines = event.target.result.split('\n');
+        // Baca header baris pertama untuk detect format automatik
+        const headerRaw = lines[0] || '';
+        const headers = headerRaw.split(',').map(x => x.trim().toUpperCase());
+
         lines.forEach((l, i) => {
             if (i === 0 || !l.trim()) return;
-            const c = l.split(',').map(x => x.trim());
-            if (type === 'borang') addItem('borang', { tajuk: c[0], tahun: c[1], meter: c[2], cadangan: c[3], catatan: c[4] });
-            else addItem('borang2', { tajuk: c[0], dari: c[1], ke: c[2], tempoh: c[3], unit: c[4], meter: c[5] });
+
+            // Split dengan sokongan nilai yang ada koma dalam tanda petik
+            const c = [];
+            let cur = '', inQuote = false;
+            for (let ch of l) {
+                if (ch === '"') { inQuote = !inQuote; }
+                else if (ch === ',' && !inQuote) { c.push(cur.trim()); cur = ''; }
+                else { cur += ch; }
+            }
+            c.push(cur.trim());
+
+            if (type === 'borang') {
+                // Format Google Sheets: BIL(A), TAJUK REKOD/BAHAN(B), TAHUN(C), METER/JUMLAH(D), CADANGAN TINDAKAN(E)
+                // Detect sama ada ada kolum BIL di hadapan atau tidak
+                const hasBil = headers[0] === 'BIL' || headers[0] === 'NO' || headers[0] === 'NO.' || /^\d+$/.test(c[0]);
+                const offset = hasBil ? 1 : 0;
+                addItem('borang', {
+                    tajuk:    c[offset]     || '',
+                    tahun:    c[offset + 1] || '',
+                    meter:    c[offset + 2] || '0.01',
+                    cadangan: c[offset + 3] || 'MUSNAH',
+                    catatan:  c[offset + 4] || 'ROSAK/UZUR'
+                });
+            } else {
+                // Format Borang 2: BIL(A), TAJUK(B), DARI(C), KE(D), TEMPOH(E), UNIT(F), METER(G)
+                const hasBil = headers[0] === 'BIL' || headers[0] === 'NO' || headers[0] === 'NO.' || /^\d+$/.test(c[0]);
+                const offset = hasBil ? 1 : 0;
+                addItem('borang2', {
+                    tajuk:  c[offset]     || '',
+                    dari:   c[offset + 1] || '',
+                    ke:     c[offset + 2] || '',
+                    tempoh: c[offset + 3] || 'Serta-merta',
+                    unit:   c[offset + 4] || '1 naskah',
+                    meter:  c[offset + 5] || '0.01'
+                });
+            }
         });
     };
     reader.readAsText(file);
@@ -993,9 +1051,161 @@ function downloadBorang12PDF() {
     doc.save('Borang_Arkib_12-08.pdf');
 }
 
-// ============ SURAT PDF ============
+// ============================================================
+//  SURAT IRINGAN PDF
+// ============================================================
 async function downloadSuratPDF() {
-    alert('Fungsi Jana Surat PDF akan ditambah dalam versi akan datang.');
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ orientation: 'portrait', unit: 'mm', format: 'a4' });
+
+    const PW = 210, PH = 297;
+    const ML = 20, MR = 20;
+    const TW = PW - ML - MR; // 170mm
+    const RIGHT = PW - MR;   // right margin x
+
+    const setFont = (style = 'normal', size = 10) => { doc.setFont('helvetica', style); doc.setFontSize(size); };
+    doc.setTextColor(0, 0, 0);
+
+    // ---- BAHAGIAN 1: LOGO + NAMA & ALAMAT SEKOLAH (KIRI) ----
+    const namaSekolah = document.getElementById('h_nama_sekolah').value || 'SEKOLAH KEBANGSAAN BUKIT TONGKAT';
+    const alamatSekolah = document.getElementById('h_alamat_sekolah').value || '';
+    const logoData = schoolLogoBase64;
+
+    let headerTopY = 14;
+    const logoSize = 24;
+    const logoX = ML;
+    const textX = ML + logoSize + 5; // teks nama sekolah mula selepas logo
+    const textMaxW = TW - logoSize - 5;
+
+    if (logoData) {
+        try {
+            const imgProps = doc.getImageProperties(logoData);
+            doc.addImage(logoData, imgProps.fileType || 'PNG', logoX, headerTopY, logoSize, logoSize);
+        } catch(e) {}
+    }
+
+    // Nama sekolah (bold, atas)
+    setFont('bold', 12);
+    const namaLines = doc.splitTextToSize(namaSekolah, textMaxW);
+    doc.text(namaLines, textX, headerTopY + 7);
+
+    // Alamat (normal, bawah nama)
+    setFont('normal', 8.5);
+    const alamatLines = doc.splitTextToSize(alamatSekolah, textMaxW);
+    doc.text(alamatLines, textX, headerTopY + 7 + namaLines.length * 5.5);
+
+    // Garis bawah kepala surat
+    const lineY = headerTopY + logoSize + 5;
+    doc.setLineWidth(0.8);
+    doc.line(ML, lineY, ML + TW, lineY);
+    doc.setLineWidth(0.3);
+    doc.line(ML, lineY + 1.5, ML + TW, lineY + 1.5);
+    doc.setLineWidth(0.2);
+
+    // ---- BAHAGIAN 2: NO. RUJUKAN & TARIKH (KANAN) ----
+    const noRujukan = document.getElementById('s_no_rujukan').value || '';
+    const tarikhSurat = document.getElementById('s_tarikh_surat').value || '';
+    const tarikhFormatted = tarikhSurat
+        ? new Date(tarikhSurat).toLocaleDateString('ms-MY', { day: 'numeric', month: 'long', year: 'numeric' })
+        : '';
+
+    let y = lineY + 12;
+    setFont('normal', 10);
+    // Label kiri, nilai rata kanan
+    const labelRujukan = 'Rujukan Kami  :';
+    const labelTarikh  = 'Tarikh             :';
+    // Print right-aligned block: label flush right at midpoint, value after
+    const colLabelX = PW - MR - 100; // start of right-side block
+    doc.text(labelRujukan, colLabelX, y);
+    setFont('bold', 10);
+    doc.text(noRujukan, colLabelX + doc.getTextWidth(labelRujukan) + 2, y);
+    y += 6;
+    setFont('normal', 10);
+    doc.text(labelTarikh, colLabelX, y);
+    setFont('bold', 10);
+    doc.text(tarikhFormatted, colLabelX + doc.getTextWidth(labelTarikh) + 2, y);
+
+    // ---- BAHAGIAN 3: ALAMAT PENERIMA (KIRI) ----
+    // Alamat penerima bermula 2 baris di bawah tarikh (y sudah ke bawah selepas tarikh)
+    const namaPenerima    = document.getElementById('s_nama_penerima').value || '';
+    const jabatanPenerima = document.getElementById('s_jabatan_penerima').value || '';
+    const alamatPenerima  = document.getElementById('s_alamat_penerima').value || '';
+
+    setFont('normal', 10);
+    const leftColW = TW / 2 - 5; // max lebar kolum kiri
+    let py = y + 12; // 2 baris (12mm) di bawah tarikh
+    if (namaPenerima) {
+        doc.text(namaPenerima, ML, py);
+        py += 6;
+    }
+    if (jabatanPenerima) {
+        const jabLines = doc.splitTextToSize(jabatanPenerima, leftColW);
+        doc.text(jabLines, ML, py);
+        py += jabLines.length * 5.5;
+    }
+    if (alamatPenerima) {
+        const aLines = doc.splitTextToSize(alamatPenerima, leftColW);
+        doc.text(aLines, ML, py);
+        py += aLines.length * 5.5;
+    }
+
+    // y lanjut selepas blok alamat penerima
+    y = py + 8;
+
+    // ---- BAHAGIAN 4: TAJUK SURAT (BOLD UNDERLINE, TENGAH) ----
+    setFont('bold', 10);
+    const tajukSurat = 'PERMOHONAN PELUPUSAN REKOD DAN BAHAN BERCETAK DI PUSAT SUMBER SEKOLAH (PSS)';
+    const CX = PW / 2;
+    const tajukLines = doc.splitTextToSize(tajukSurat, TW);
+    tajukLines.forEach(line => {
+        doc.text(line, CX, y, { align: 'center' });
+        const lw = doc.getTextWidth(line);
+        doc.line(CX - lw / 2, y + 1, CX + lw / 2, y + 1);
+        y += 6;
+    });
+    y += 5;
+
+    // ---- BAHAGIAN 5: PERENGGAN ----
+    setFont('normal', 10);
+    const perengganEls = document.querySelectorAll('.s-perenggan');
+    perengganEls.forEach(el => {
+        const teks = el.value.trim();
+        if (!teks) return;
+        const fullText = '          ' + teks;
+        const lines = doc.splitTextToSize(fullText, TW);
+        if (y + lines.length * 6 > PH - 55) { doc.addPage(); y = 20; }
+        doc.text(lines, ML, y, { lineHeightFactor: 1.6 });
+        y += lines.length * 6 + 4;
+    });
+
+    y += 5;
+
+    // ---- BAHAGIAN 6: PENUTUP & TANDATANGAN ----
+    const sekian       = document.getElementById('s_sekian').value || 'Sekian, terima kasih.';
+    const madani       = document.getElementById('s_madani').value || 'MALAYSIA MADANI';
+    const khidmat      = document.getElementById('s_khidmat').value || 'BERKHIDMAT UNTUK NEGARA';
+    const amanah       = document.getElementById('s_amanah').value || 'Saya yang menjalankan amanah,';
+    const namaGB       = document.getElementById('s_nama_gb').value || 'NAMA GURU BESAR';
+    const jawatanGB    = document.getElementById('s_jawatan_gb').value || 'Guru Besar';
+    const namaSekolahCap = document.getElementById('s_nama_sekolah_cap').value || 'Sekolah Kebangsaan Bukit Tongkat';
+
+    if (y + 55 > PH - 15) { doc.addPage(); y = 20; }
+
+    setFont('normal', 10);
+    doc.text(sekian, ML, y); y += 7;
+    setFont('bold', 10);
+    doc.text(madani, ML, y); y += 5;
+    doc.text(khidmat, ML, y); y += 10;
+    setFont('normal', 10);
+    doc.text(amanah, ML, y); y += 24; // ruang tandatangan
+
+    setFont('bold', 10);
+    doc.text(namaGB, ML, y); y += 6;
+    setFont('normal', 10);
+    doc.text(jawatanGB, ML, y); y += 5;
+    doc.text(namaSekolahCap, ML, y);
+
+    doc.save('Surat_Iringan_Pelupusan.pdf');
 }
 </script>
 </body>
